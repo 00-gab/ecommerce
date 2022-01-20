@@ -8,10 +8,16 @@ import {
   Typography,
 } from "@mui/material";
 
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { authService } from "../firebase";
+
+
 const Login = () => {
-	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [newAccount, setNewAccount] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
 
 	const styles = {
 		"spacing": "12px",
@@ -20,19 +26,25 @@ const Login = () => {
 	}
 
 	const onChange = (event) => {
-		const { target: { value, name } } = event;
-		if (name === "username") {
-			setUsername(value)
-		} else if (name === "password") {
-			setPassword(value);
-		}
+		const { target: { name, value } } = event;
+		if (name === "email") setEmail(value);
+		if (name === "password") setPassword(value);
 	}
 
-	const onSubmit = (event) => {
+	const onSubmit = async (event) => {
 		event.preventDefault();
-		console.log(username + ' ' + password)
-		setUsername("");
-		setPassword("");
+		setLoading(true);
+		try {
+			if (newAccount) {
+				// sign up
+				await createUserWithEmailAndPassword(authService, email, password);
+			} else {
+				await signInWithEmailAndPassword(authService, email, password);
+			}
+		} catch (error) {
+			setError(error.message);
+		}
+		setLoading(false);
 	}
 
 	const onToggleClick = () => setNewAccount((prev) => !prev);
@@ -60,10 +72,10 @@ const Login = () => {
 				</Grid>
 				<TextField 
 				label='Username' 
-				variant="outlined" 
+				variant='outlined'
 				placeholder='Enter username' 
-				name="username"
-				value={username}
+				name='email'
+				value={email}
 				onChange={onChange}
 				sx={{ mb: styles["spacing"] }}
 				fullWidth 
@@ -71,16 +83,17 @@ const Login = () => {
 				/>
                 <TextField 
 				label='Password' 
-				variant="outlined" 
+				variant='outlined' 
 				placeholder='Enter password' 
 				type='password'
-				name="password"
+				name='password'
 				value={password}
 				onChange={onChange} 
 				sx={{ mb: styles["spacing"] }}
 				fullWidth 
 				required
 				/>
+				{error && (<Typography sx={{ color: "warning.main", p: "0.5rem 0" }} align="center">{error.slice(10, -1)}</Typography>)}
 				<Button 
 				sx={{ 
 					p: styles["btn-padding"], 
@@ -88,6 +101,7 @@ const Login = () => {
 					m: '8px 0' }} 
 				type="submit"
 				variant="contained"
+				disabled={loading}
 				>
 				{newAccount ? "Sign up" : "Sign in"}
 				</Button>
@@ -98,6 +112,7 @@ const Login = () => {
 					fontSize: styles["fs-primary"], 
 					m: '20px 0' }} 
 				variant="contained"
+				disabled={loading}
 				color="success"
 				onClick={onToggleClick}
 				>

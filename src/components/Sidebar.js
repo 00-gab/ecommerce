@@ -1,68 +1,11 @@
 import React from "react";
 import {
   Box,
-  Divider,
   Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography,
 } from "@mui/material";
-
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import Inventory2Icon from '@mui/icons-material/Inventory2';
-import PaymentsIcon from '@mui/icons-material/Payments';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LogoutIcon from '@mui/icons-material/Logout';
-
-
-const sidebarItems = [
-	{
-	  name: 'Products',
-	  icon: <Inventory2Icon />,
-	},
-	{
-	  name: 'Orders',
-	  icon: <ShoppingCartIcon />,
-	},
-	{
-	  name: 'Transactions',
-	  icon: <PaymentsIcon />,
-	},
-];
+import SidebarContent from "./SidebarContent";
 
 const container = window !== undefined ? () => window.document.body : undefined;
-
-const drawerContent = (
-	<div>
-		<Toolbar>
-			<SupervisorAccountIcon />
-			<Typography variant="h5" sx={{ ml: '8px' }}>Admin</Typography>
-		</Toolbar>
-		<Divider />
-		<List>
-			{sidebarItems.map(item => (
-				<ListItem button key={item.name}>
-					<ListItemIcon>
-						{item.icon}
-					</ListItemIcon>
-					<ListItemText primary={item.name} />
-				</ListItem>
-			))}
-		</List>
-		<Divider />
-		<List>
-			<ListItem button onClick={() => console.log("log out")} key="settings">
-				<ListItemIcon >
-					<LogoutIcon />
-				</ListItemIcon>
-				<ListItemText primary="Log Out" />
-			</ListItem>
-		</List>
-	</div>
-);
 
 const Sidebar = ({ drawerWidth, mobileOpen, handleDrawerToggle}) => {
 	return (
@@ -82,7 +25,7 @@ const Sidebar = ({ drawerWidth, mobileOpen, handleDrawerToggle}) => {
 			'& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
 		}}
 		>
-			{drawerContent}
+			<SidebarContent />
 		</Drawer>
 		<Drawer
 		variant="permanent"
@@ -92,7 +35,7 @@ const Sidebar = ({ drawerWidth, mobileOpen, handleDrawerToggle}) => {
 		}}
 		open
 		>
-			{drawerContent}
+			<SidebarContent />
 		</Drawer>
 		</Box>
 	);
