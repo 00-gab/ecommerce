@@ -8,6 +8,7 @@ import {
 
 import Nav from "./components/Nav"
 import Sidebar from "./components/Sidebar";
+import Login from "./Login";
 
 const drawerWidth = 240;
 
@@ -21,7 +22,8 @@ function App() {
     <>
       <CssBaseline />
       <div className="App">
-        <Box sx={{ display: 'flex' }}>
+        <Login />
+        {/* <Box sx={{ display: 'flex' }}>
           <Nav
           drawerWidth={drawerWidth} 
           handleDrawerToggle={handleDrawerToggle} 
@@ -43,8 +45,8 @@ function App() {
           <Toolbar />
             <Typography variant="h1">main contents here...</Typography>
           </Box>
-        </Box>
-      </div>`
+        </Box> */}
+      </div>
     </>
   );
 }
