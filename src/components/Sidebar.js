@@ -15,7 +15,8 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 
 const sidebarItems = [
 	{
@@ -53,11 +54,11 @@ const drawerContent = (
 		</List>
 		<Divider />
 		<List>
-			<ListItem button key="settings">
-				<ListItemIcon>
-					<SettingsIcon />
+			<ListItem button onClick={() => console.log("log out")} key="settings">
+				<ListItemIcon >
+					<LogoutIcon />
 				</ListItemIcon>
-				<ListItemText primary="Settings" />
+				<ListItemText primary="Log Out" />
 			</ListItem>
 		</List>
 	</div>

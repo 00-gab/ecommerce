@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 
 const Nav = ({ drawerWidth, handleDrawerToggle }) => {
 	return (
@@ -28,8 +29,9 @@ const Nav = ({ drawerWidth, handleDrawerToggle }) => {
 		  >
 			<MenuIcon />
 		  </IconButton>
-		  <Typography variant="h6" noWrap component="div">
-		  Responsive drawer
+		  <StorefrontIcon fontSize="large" sx={{ mr: 0.5 }} />
+		  <Typography variant="h5" noWrap component="div">
+		  Ecommerce
 		  </Typography>
 		</Toolbar>
 		</AppBar>
