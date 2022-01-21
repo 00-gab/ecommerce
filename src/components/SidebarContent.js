@@ -50,7 +50,7 @@ const SidebarContent = () => {
 			<Divider />
 			<List>
 				{sidebarItems.map(item => (
-					<ListItem button key={item.name}>
+					<ListItem button component="a" href={`/${item.name.toLowerCase()}`} key={item.name}>
 						<ListItemIcon>
 							{item.icon}
 						</ListItemIcon>

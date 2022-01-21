@@ -1,27 +1,9 @@
 import React from "react";
-import {
-  Box,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Typography } from "@mui/material";
 
-
-const Dashboard = ({ drawerWidth }) => {
+const Dashboard = () => {
 	return (
-		<Box sx={{ display: 'flex' }}>
-		<Box
-		component="main"
-		sx={{ 
-		  flexGrow: 1, p: 3, 
-		  height: '100vh',
-		  width: { sm: `calc(100% - ${drawerWidth}px)` },
-		  bgcolor: '#fafafa', 
-		}}
-		>
-		<Toolbar />
-		  <Typography variant="h1">main contents here...</Typography>
-		</Box>
-	  </Box>
+		<Typography variant="h1">Products here...</Typography>
 	);
 }
  
