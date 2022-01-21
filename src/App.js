@@ -4,7 +4,7 @@ import AppRouter from "./components/AppRouter";
 import { onAuthStateChanged } from "firebase/auth";
 import { authService } from "./firebase";
 
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, LinearProgress } from "@mui/material";
 
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
       isLoggedIn={isLoggedIn}
       /> 
       :
-      "initializing..."
+      <LinearProgress />
       }
     </>
   );
