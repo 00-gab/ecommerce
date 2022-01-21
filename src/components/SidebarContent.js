@@ -87,9 +87,10 @@ const SidebarContent = () => {
 						transform: 'translate(-50%, -50%)',
 						bgcolor: 'background.paper',
 						width: { sm: '500px', xs: '300px' }, 
-						height: { sm: '600px', xs: '400px' } ,
+						height: { sm: '400px', xs: '300px' } ,
 						boxShadow: 24,
   						p: 4,
+						display: 'flex'
 						}}
 						>
 							<AddProduct />

@@ -1,12 +1,11 @@
 import React from "react";
 import { 
 	Box,
+	Button,
+	Stack,
+	styled,
 	TextField,
 	Typography,
-	Button,
-	Container,
-	Divider,
-	Grid,
 } from "@mui/material";
 
 const styles = {
@@ -14,6 +13,10 @@ const styles = {
 	"btn-padding": "0.5rem",
 	"fs-primary": "1.125rem",
 }
+
+const Input = styled('input')({
+	display: 'none',
+});
 
 const AddProduct = () => {
 	const onSubmit = (event) => {
@@ -29,9 +32,10 @@ const AddProduct = () => {
 			width: '100%', 
 			display: 'flex',
 			flexDirection: 'column', 
-			justifyContent: 'center' 
+			justifyContent: 'center',
 		}}
 		>
+		<Typography variant="h3" gutterBottom>Add a Product</Typography>
 			<TextField
 			sx={{ mb: styles["spacing"] }}
 			label='Product Name' 
@@ -50,6 +54,14 @@ const AddProduct = () => {
 			fullWidth
 			required
 			/>
+			<Stack direction="row" alignItems="center" spacing={2}>
+			<label htmlFor="contained-button-file">
+				<Input accept="image/*" id="contained-button-file" multiple type="file" />
+				<Button variant="contained" component="span">
+				Upload
+				</Button>
+			</label>
+			</Stack>
 			<Button 
 				sx={{ 
 					p: styles["btn-padding"], 
