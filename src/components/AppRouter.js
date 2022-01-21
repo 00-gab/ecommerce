@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Dashboard from "../routes/Dashboard";
 import Orders from "../routes/Orders"
@@ -7,12 +7,7 @@ import Login from "../routes/Login";
 
 import AppContainer from "./AppContainer";
 
-const AppRouter = ({ isLoggedIn }) => {
-	const [mobileOpen, setMobileOpen] = useState(false);
-	const drawerWidth = 240;
-	const handleDrawerToggle = () => {
-	  setMobileOpen(!mobileOpen);
-	};
+const AppRouter = ({ isLoggedIn,  drawerWidth, mobileOpen, handleDrawerToggle}) => {
 	return (
 		<Router>
 			<Switch>

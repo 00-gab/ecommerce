@@ -33,5 +33,5 @@ const AppContainer = ({ Element, drawerWidth, handleDrawerToggle, mobileOpen }) 
 		</Box>
 	);
 }
- 
+
 export default AppContainer;

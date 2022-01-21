@@ -10,6 +10,12 @@ import { CssBaseline, LinearProgress } from "@mui/material";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [init, setInit] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+	const drawerWidth = 240;
+	
+  const handleDrawerToggle = () => {
+	  setMobileOpen(!mobileOpen);
+	};
 
   useEffect(() => {
     const sub = onAuthStateChanged(authService, user => {
@@ -30,6 +36,9 @@ function App() {
       {init ?
       <AppRouter
       isLoggedIn={isLoggedIn}
+      drawerWidth={drawerWidth}
+      mobileOpen={mobileOpen}
+      handleDrawerToggle={handleDrawerToggle}
       /> 
       :
       <LinearProgress />
