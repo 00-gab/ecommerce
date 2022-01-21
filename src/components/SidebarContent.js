@@ -1,41 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { authService } from "../firebase";
 
 import {
+	Collapse,
 	Divider,
 	List,
-	ListItem,
+	ListItemButton,
 	ListItemIcon,
 	ListItemText,
+	Modal,
+	Paper,
 	Toolbar,
 	Typography,
 } from "@mui/material";
 
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import AddIcon from '@mui/icons-material/Add';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import GridViewIcon from '@mui/icons-material/GridView';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
-import PaymentsIcon from '@mui/icons-material/Payments';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import SettingsIcon from '@mui/icons-material/Settings';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
+import AddProduct from './AddProduct'
 
 const SidebarContent = () => {
-	const sidebarItems = [
-		{
-		  name: 'Products',
-		  icon: <Inventory2Icon />,
-		},
-		{
-		  name: 'Orders',
-		  icon: <ShoppingCartIcon />,
-		},
-		{
-		  name: 'Transactions',
-		  icon: <PaymentsIcon />,
-		},
-	];
 	const history = useHistory();
+	const [settingsOpen, setSettingsOpen] = useState(false);
+	const [productsOpen, setProductsOpen] = useState(false);
+	const [modalOpen, setModalOpen] = useState(false);
+
+	const onSettingsClick = () => setSettingsOpen((prev) => !prev);
+	const onProductsClick = () => setProductsOpen((prev) => !prev);
+	const onModalClick = () => setModalOpen((prev) => !prev);
+
 	const onLogOutClick = () => {
 		signOut(authService);
 		history.push("/")
@@ -48,25 +51,86 @@ const SidebarContent = () => {
 				<Typography variant="h5" sx={{ ml: '8px' }}>Admin</Typography>
 			</Toolbar>
 			<Divider />
+			{/* start of products nested list */}
 			<List>
-				{sidebarItems.map(item => (
-					<ListItem button component="a" href={`/${item.name.toLowerCase()}`} key={item.name}>
+				<ListItemButton onClick={onProductsClick}>
+					<ListItemIcon>
+						<Inventory2Icon />
+					</ListItemIcon>
+					<ListItemText primary="Products" />
+					{productsOpen ? <ExpandLess /> : <ExpandMore />}
+				</ListItemButton>
+				<Collapse in={productsOpen} timeout="auto" unmountOnExit>
+				<List component="div" disablePadding>
+					<ListItemButton component="a" href="/" sx={{ pl: 4 }}>
 						<ListItemIcon>
-							{item.icon}
+							<GridViewIcon />
 						</ListItemIcon>
-						<ListItemText primary={item.name} />
-					</ListItem>
-				))}
+						<ListItemText primary="Products Grid" />
+					</ListItemButton>
+					<ListItemButton onClick={onModalClick} sx={{ pl: 4 }}>
+						<ListItemIcon>
+							<AddIcon />
+						</ListItemIcon>
+						<ListItemText primary="Add Product" />
+					</ListItemButton>
+					<Modal
+					open={modalOpen}
+					onClose={onModalClick}
+					aria-labelledby="modal-modal-title"
+					aria-describedby="modal-modal-description"
+					>
+						<Paper elevate={3} sx={{
+						position: 'absolute',
+						top: '50%',
+						left: '50%',
+						transform: 'translate(-50%, -50%)',
+						bgcolor: 'background.paper',
+						width: { sm: '500px', xs: '300px' }, 
+						height: { sm: '600px', xs: '400px' } ,
+						boxShadow: 24,
+  						p: 4,
+						}}
+						>
+							<AddProduct />
+						</Paper>
+					</Modal>
+				</List>
+				</Collapse>
+				{/* end of products nested list */}
+				<ListItemButton component="a" href="/orders">
+					<ListItemIcon>
+						<ShoppingCartIcon />
+					</ListItemIcon>
+					<ListItemText primary="Orders" />
+				</ListItemButton>
+				<ListItemButton component="a" href="/transactions">
+					<ListItemIcon>
+						<PaymentsIcon />
+					</ListItemIcon>
+					<ListItemText primary="Transactions" />
+				</ListItemButton>
 			</List>
 			<Divider />
 			<List>
-				<ListItem button onClick={onLogOutClick} key="settings">
-					<ListItemIcon >
-						<LogoutIcon />
+				<ListItemButton onClick={onSettingsClick}>
+					<ListItemIcon>
+						<SettingsIcon />
 					</ListItemIcon>
-					<ListItemText primary="Log Out" />
-				</ListItem>
+					<ListItemText primary="Settings" />
+					{settingsOpen ? <ExpandLess /> : <ExpandMore />}
+				</ListItemButton>
 			</List>
+			<Collapse in={settingsOpen} timeout="auto" unmountOnExit>
+				<List component="div" disablePadding>
+					<ListItemButton onClick={onLogOutClick} sx={{ pl: 4 }}>
+						<ListItemIcon>
+							<LogoutIcon />
+						</ListItemIcon>
+						<ListItemText primary="Log out" />
+					</ListItemButton>
+				</List>
+			</Collapse>
 		</div>
 	);
 }

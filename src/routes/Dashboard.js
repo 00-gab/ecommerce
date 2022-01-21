@@ -74,8 +74,8 @@ const Dashboard = () => {
 							</CardContent>
 							<Divider />
 							<CardActions sx={{ p: 2, display: 'flex', justifyContent: 'space-evenly' }}>
-								<Button size="medium" color="primary">View Product</Button>
-								<Button size="medium" variant="contained" color="primary">Edit Product</Button>
+								<Button size="medium" variant="contained" color="primary">View Product</Button>
+								<Button size="medium" variant="outlined" color="primary">Edit Product</Button>
 							</CardActions>
 						</Card>
 					</Grid>

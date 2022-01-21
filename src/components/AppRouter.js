@@ -13,7 +13,7 @@ const AppRouter = ({ isLoggedIn,  drawerWidth, mobileOpen, handleDrawerToggle}) 
 			<Switch>
 				{isLoggedIn ? (
 					<>
-						<Route exact path="/products">
+						<Route exact path="/">
 							<AppContainer 
 							Element={Dashboard} 
 							drawerWidth={drawerWidth} 
