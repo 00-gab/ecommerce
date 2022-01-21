@@ -116,7 +116,7 @@ const Login = () => {
 				color="success"
 				onClick={onToggleClick}
 				>
-				{newAccount ? "Create new account" : "Already have an account?"}
+				{newAccount ? "Already have an account?" : "Create new account"}
 				</Button>
 			</Paper>
 		</Grid>

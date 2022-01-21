@@ -1,33 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Toolbar,
   Typography,
 } from "@mui/material";
 
-import Nav from "../components/Nav"
-import Sidebar from "../components/Sidebar";
 
-const drawerWidth = 240;
-
-
-const Dashboard = () => {
-	const [mobileOpen, setMobileOpen] = useState(false);
-	const handleDrawerToggle = () => {
-	  setMobileOpen(!mobileOpen);
-	};
-
+const Dashboard = ({ drawerWidth }) => {
 	return (
 		<Box sx={{ display: 'flex' }}>
-		<Nav
-		drawerWidth={drawerWidth} 
-		handleDrawerToggle={handleDrawerToggle} 
-		/>
-		<Sidebar 
-		drawerWidth={drawerWidth} 
-		mobileOpen={mobileOpen} 
-		handleDrawerToggle={handleDrawerToggle}
-		/>
 		<Box
 		component="main"
 		sx={{ 

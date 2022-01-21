@@ -40,5 +40,5 @@ const Sidebar = ({ drawerWidth, mobileOpen, handleDrawerToggle}) => {
 		</Box>
 	);
 }
- 
+
 export default Sidebar;
