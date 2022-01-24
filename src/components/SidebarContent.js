@@ -93,7 +93,7 @@ const SidebarContent = () => {
 						display: 'flex'
 						}}
 						>
-							<AddProduct />
+							<AddProduct setModalOpen={setModalOpen} />
 						</Paper>
 					</Modal>
 				</List>
