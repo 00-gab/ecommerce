@@ -86,11 +86,11 @@ const SidebarContent = () => {
 						left: '50%',
 						transform: 'translate(-50%, -50%)',
 						bgcolor: 'background.paper',
-						width: { sm: '500px', xs: '300px' }, 
-						height: { sm: '400px', xs: '300px' } ,
+						width: { xs: '100%', sm: '80%', md: '50%',  }, 
+						height: { sx: '50%' },
 						boxShadow: 24,
-  						p: 4,
-						display: 'flex'
+  						p: 3,
+						display: 'flex',
 						}}
 						>
 							<AddProduct setModalOpen={setModalOpen} />

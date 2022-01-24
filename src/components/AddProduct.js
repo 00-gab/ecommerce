@@ -14,7 +14,7 @@ import {
 
 
 const styles = {
-	"spacing": "12px",
+	"spacing": "1.125rem",
 	"btn-padding": "0.5rem",
 	"fs-primary": "1.125rem",
 }
@@ -120,6 +120,9 @@ const AddProduct = ({ setModalOpen }) => {
 			fullWidth
 			required
 			/>
+			{error && (
+			<Typography sx={{ color: "warning.main" }} gutterBottom>{error}</Typography>
+		)}
 			<Stack direction="row" alignItems="center" spacing={2}>
 			<label htmlFor="contained-button-file">
 				<Input 
@@ -141,7 +144,6 @@ const AddProduct = ({ setModalOpen }) => {
 				type="submit"
 				variant="contained"
 			>Add Product</Button>
-			{error && (<Typography sx={{ color: "warning.main", p: "0.5rem 0" }} align="center">{error}</Typography>)}
 		</Box>
 	);
 }
