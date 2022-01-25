@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { authService } from "../firebase";
-
 import {
 	Collapse,
 	Divider,
@@ -10,12 +9,9 @@ import {
 	ListItemButton,
 	ListItemIcon,
 	ListItemText,
-	Modal,
-	Paper,
 	Toolbar,
 	Typography,
 } from "@mui/material";
-
 import AddIcon from '@mui/icons-material/Add';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -27,7 +23,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
-import AddProduct from './AddProduct'
+import ProductModal from './ProductModal';
+import AddProduct from './AddProduct';
 
 const SidebarContent = () => {
 	const history = useHistory();
@@ -74,28 +71,13 @@ const SidebarContent = () => {
 						</ListItemIcon>
 						<ListItemText primary="Add Product" />
 					</ListItemButton>
-					<Modal
-					open={modalOpen}
-					onClose={onModalClick}
-					aria-labelledby="modal-modal-title"
-					aria-describedby="modal-modal-description"
-					>
-						<Paper elevate={3} sx={{
-						position: 'absolute',
-						top: '50%',
-						left: '50%',
-						transform: 'translate(-50%, -50%)',
-						bgcolor: 'background.paper',
-						width: { xs: '100%', sm: '80%', md: '50%',  }, 
-						height: { sx: '50%' },
-						boxShadow: 24,
-  						p: 3,
-						display: 'flex',
-						}}
-						>
-							<AddProduct setModalOpen={setModalOpen} />
-						</Paper>
-					</Modal>
+					<ProductModal
+					ModalContent={AddProduct}
+					modalOpen={modalOpen} 
+					setModalOpen={setModalOpen}
+					onModalClick={onModalClick}
+					edit={false} 
+					/>
 				</List>
 				</Collapse>
 				{/* end of products nested list */}
