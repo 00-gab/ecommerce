@@ -74,14 +74,15 @@ const Products = ({ products }) => {
 						}}>
 						<Button size="medium" variant="contained" color="primary">View Product</Button>
 						<Button 
-						onClick={() => onModalClick(product.id, product.name, product.price, product.stocks, product.attachmentUrl)} 
+						// onClick={() => onModalClick(product.id, product.name, product.price, product.stocks, product.attachmentUrl)} 
+						component="a"
+						href={`edit/${product.id}`}
 						size="medium"
 						variant="outlined" 
 						color="primary">
-						{/* Edit Product */}
-						{product.id}
+						Edit Product
 						</Button>
-						<ProductModal 
+						{/* <ProductModal 
 						ModalContent={EditProduct}
 						id={currItem}
 						currName={currName}
@@ -90,8 +91,9 @@ const Products = ({ products }) => {
 						currImg={currImg}
 						modalOpen={modalOpen}
 						onModalClose={onModalClose}
+						setModalOpen={setModalOpen}
 						edit={true}
-						/>
+						/> */}
 					</CardActions>
 				</Card>
 			</Grid>

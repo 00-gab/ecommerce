@@ -127,7 +127,8 @@ const AddProduct = ({ setModalOpen }) => {
 				<Input 
 				accept="image/*" 
 				id="contained-button-file"
-				multiple type="file" 
+				multiple 
+				type="file" 
 				onChange={onFileChange}
 				/>
 				<Button variant="contained" component="span">

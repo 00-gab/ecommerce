@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { ref, uploadString, getDownloadURL } from "firebase/storage";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
+import { ref, uploadString, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from "../firebase";
 import { 
 	Box,
@@ -22,14 +22,20 @@ const Input = styled('input')({
 	display: 'none',
 });
 
-const EditProduct = ({ id, currName, currPrice, currStocks, currImg }) => {
-	const [productId, setProductId] = useState(id);
-	const [name, setName] = useState(currName);
+const EditProduct = ({ id, currName, currPrice, currStocks, currImg, setModalOpen }) => {
+	const [prodName, setProdName] = useState(currName);
 	const [price, setPrice] = useState(currPrice);
 	const [stocks, setStocks] = useState(currStocks);
 	const [attachment, setAttachment] = useState(currImg);
 	const [error, setError] = useState("");
-	
+
+	const onChange = (event) => {
+		const { target: { name, value } } = event;
+		if (name === 'product') setProdName(value);
+		if (name === 'price') setPrice(value);
+		if (name === 'stocks') setStocks(value);
+	}
+
 	const onFileChange = (event) => {
 		const { target: { files } } = event;
 		const imgFile = files[0];
@@ -41,19 +47,32 @@ const EditProduct = ({ id, currName, currPrice, currStocks, currImg }) => {
 		reader.readAsDataURL(imgFile);
 	}
 
-	const onSubmit = (event) => {
+	const onSubmit = async (event) => {
 		event.preventDefault();
+		console.log(attachment);
+		// if (attachment === null) {
+		// 	setError("Image is required...");
+		// 	return;
+		// }
+		// let attachmentUrl = null;
+		// if (attachment !== null) {
+		// 	const attachmentRef = ref(storage, `admin/${uuidv4()}`);
+		// 	await uploadString(attachmentRef, attachment, 'data_url');
+		// 	attachmentUrl = await getDownloadURL(attachmentRef);
+		// }
+		// const data = {
+		// 	name: productName,
+		// 	price: productPrice,
+		// 	stocks: productStocks,
+		// 	attachmentUrl,
+		// };
+
+		// setModalOpen(false);
 	}
 
-	const onChange = (event) => {
-		const { target: { name, value } } = event;
-		if (name === 'product') setName(value);
-		if (name === 'price') setPrice(value);
-		if (name === 'stocks') setStocks(value);
-	}
 
 	return (
-	<Box 
+		<Box 
 		component="form" 
 		onSubmit={onSubmit} 
 		sx={{ 
@@ -63,7 +82,7 @@ const EditProduct = ({ id, currName, currPrice, currStocks, currImg }) => {
 			justifyContent: 'center',
 		}}
 		>
-		<Typography variant="h3" gutterBottom>Edit Product</Typography>
+		<Typography variant="h3" gutterBottom>Add a Product</Typography>
 			<TextField
 			sx={{ mb: styles["spacing"] }}
 			label='Product Name' 
@@ -71,7 +90,7 @@ const EditProduct = ({ id, currName, currPrice, currStocks, currImg }) => {
 			placeholder='Enter product name' 
 			name='product'
 			onChange={onChange}
-			value={name}
+			value={prodName}
 			fullWidth
 			required
 			/>
@@ -101,20 +120,16 @@ const EditProduct = ({ id, currName, currPrice, currStocks, currImg }) => {
 			<Typography sx={{ color: "warning.main" }} gutterBottom>{error}</Typography>
 		)}
 			<Stack direction="row" alignItems="center" spacing={2}>
-			<Box 
-			component="img"
-			src={attachment} 
-			sx={{ width: '150px', height: '150px' }} 
-			/>
 			<label htmlFor="contained-button-file">
 				<Input 
 				accept="image/*" 
 				id="contained-button-file"
-				multiple type="file" 
+				multiple 
+				type="file" 
 				onChange={onFileChange}
 				/>
 				<Button variant="contained" component="span">
-				change product image
+				update product image
 				</Button>
 			</label>
 			</Stack>
@@ -129,5 +144,5 @@ const EditProduct = ({ id, currName, currPrice, currStocks, currImg }) => {
 		</Box>
 	);
 }
- 
+
 export default EditProduct;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Paper } from "@mui/material";
 
 const ProductModal = ({ 
@@ -40,6 +40,7 @@ const ProductModal = ({
 					currPrice={currPrice}
 					currStocks={currStocks}
 					currImg={currImg}
+					setModalOpen={setModalOpen}
 					/>
 				) :
 				(

@@ -35,6 +35,7 @@ const SidebarContent = () => {
 	const onSettingsClick = () => setSettingsOpen((prev) => !prev);
 	const onProductsClick = () => setProductsOpen((prev) => !prev);
 	const onModalClick = () => setModalOpen((prev) => !prev);
+	const onModalClose = () => setModalOpen((prev) => !prev);
 
 	const onLogOutClick = () => {
 		signOut(authService);
@@ -76,6 +77,7 @@ const SidebarContent = () => {
 					modalOpen={modalOpen} 
 					setModalOpen={setModalOpen}
 					onModalClick={onModalClick}
+					onModalClose={onModalClose}
 					edit={false} 
 					/>
 				</List>

@@ -4,6 +4,7 @@ import Dashboard from "../routes/Dashboard";
 import Orders from "../routes/Orders"
 import Transactions from "../routes/Transactions"
 import Login from "../routes/Login";
+import Edit from "../routes/Edit";
 
 import AppContainer from "./AppContainer";
 
@@ -32,6 +33,14 @@ const AppRouter = ({ isLoggedIn,  drawerWidth, mobileOpen, handleDrawerToggle}) 
 						<Route exact path="/transactions">
 							<AppContainer 
 							Element={Transactions} 
+							drawerWidth={drawerWidth} 
+							handleDrawerToggle={handleDrawerToggle} 
+							mobileOpen={mobileOpen} 
+							/>
+						</Route>
+						<Route exact path="/edit/:id">
+							<AppContainer 
+							Element={Edit} 
 							drawerWidth={drawerWidth} 
 							handleDrawerToggle={handleDrawerToggle} 
 							mobileOpen={mobileOpen} 
