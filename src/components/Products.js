@@ -46,7 +46,7 @@ const Products = ({ products }) => {
 		<>
 		{products.map(product => (
 			<Grid item key={product.id} xs={12} sm={12} md={6} lg={4}>
-				<Card sx={{ maxWidth: 345, height: '450px' }}>
+				<Card sx={{ maxWidth: 345, height: '500px', p: '0.5rem' }}>
 					<CardMedia
 					component="img" 
 					image={product.attachmentUrl}
@@ -65,35 +65,33 @@ const Products = ({ products }) => {
 						<Typography variant="subtitle1">stocks: {product.stocks}</Typography>
 					</CardContent>
 					<Divider />
-					<CardActions sx={{ 
-						p: 1, 
-						display: 'flex', 
-						justifyContent: 'space-evenly',
-						alignItems: 'center', 
-						height: '19%' 
-						}}>
-						<Button size="medium" variant="contained" color="primary">View Product</Button>
+					<CardActions 
+					sx={{  
+					display: 'flex', 
+					flexDirection: 'column',
+					}}>
+						{/* sx={{ m: {xs: '8px 0 8px', sm: '8px 0 8px', md: '8px 0 8px'} }} */}
+						<Button
+						component="a"
+						href={`/products/view/${product.id}`}
+						size="small" 
+						variant="contained" 
+						color="primary"
+						fullWidth
+						sx={{ m: '8px 0 8px' }}
+						>
+						View Product
+						</Button>
 						<Button 
-						// onClick={() => onModalClick(product.id, product.name, product.price, product.stocks, product.attachmentUrl)} 
 						component="a"
 						href={`edit/${product.id}`}
-						size="medium"
+						size="small"
 						variant="outlined" 
-						color="primary">
+						color="primary"
+						fullWidth
+						>
 						Edit Product
 						</Button>
-						{/* <ProductModal 
-						ModalContent={EditProduct}
-						id={currItem}
-						currName={currName}
-						currPrice={currPrice}
-						currStocks={currStocks}
-						currImg={currImg}
-						modalOpen={modalOpen}
-						onModalClose={onModalClose}
-						setModalOpen={setModalOpen}
-						edit={true}
-						/> */}
 					</CardActions>
 				</Card>
 			</Grid>

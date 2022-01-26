@@ -115,7 +115,7 @@ const Edit = () => {
 			{product && (
 			<Paper 
 			elevation={9}
-			sx={{ width: {sm: '100%', md: '50%'}, height: 'auto', p: '1em' }}
+			sx={{ width: {xs: '100%', sm: '100%', md: '60%', lg: '50%'}, height: 'auto', p: '1em' }}
 			>
 				<Box 
 				component="form" 

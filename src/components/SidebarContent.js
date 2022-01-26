@@ -15,6 +15,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import GridViewIcon from '@mui/icons-material/GridView';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -65,6 +66,12 @@ const SidebarContent = () => {
 							<GridViewIcon />
 						</ListItemIcon>
 						<ListItemText primary="Products Grid" />
+					</ListItemButton>
+					<ListItemButton component="a" href="/products/list" sx={{ pl: 4 }}>
+						<ListItemIcon>
+							<FormatListBulletedIcon />
+						</ListItemIcon>
+						<ListItemText primary="Products List" />
 					</ListItemButton>
 					<ListItemButton onClick={onModalClick} sx={{ pl: 4 }}>
 						<ListItemIcon>
