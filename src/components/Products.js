@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { 
 	Typography,
 	Button,
+	Box,
 	Card,
 	CardActions,
 	CardContent,
@@ -40,6 +41,11 @@ const Products = ({ products }) => {
 		setCurrStocks(stocks);
 		setCurrImg(img);
 	};
+	const divStyle = {
+		display: 'flex',
+		flexDirection: 'column',
+		m: '10px 0 8px'
+	}
 	
 	// 56.25%
 	return (
@@ -65,34 +71,26 @@ const Products = ({ products }) => {
 						<Typography variant="subtitle1">stocks: {product.stocks}</Typography>
 					</CardContent>
 					<Divider />
-					<CardActions 
-					sx={{  
-					display: 'flex', 
-					flexDirection: 'column',
-					}}>
-						{/* sx={{ m: {xs: '8px 0 8px', sm: '8px 0 8px', md: '8px 0 8px'} }} */}
+					<Box
+					component="div"
+					sx={divStyle}
+					>
 						<Button
 						component="a"
 						href={`/products/view/${product.id}`}
-						size="small" 
-						variant="contained" 
-						color="primary"
-						fullWidth
-						sx={{ m: '8px 0 8px' }}
+						sx={{ mb: '8px' }} 
+						variant="contained"
 						>
 						View Product
 						</Button>
 						<Button 
 						component="a"
 						href={`edit/${product.id}`}
-						size="small"
-						variant="outlined" 
-						color="primary"
-						fullWidth
+						variant="outlined"
 						>
 						Edit Product
 						</Button>
-					</CardActions>
+					</Box>
 				</Card>
 			</Grid>
 		))}

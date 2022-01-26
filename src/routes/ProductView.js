@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { useParams, useHistory } from "react-router-dom";
+import { ref, deleteObject } from "firebase/storage";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { db, storage } from "../firebase";
 import { 
 	Box,
 	Button,
 	Divider,
+	Modal,
 	Paper,
-	Stack,
-	styled,
-	TextField,
 	Typography,
 } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
@@ -24,20 +23,35 @@ const divStyle = {
 
 const ProductView = () => {
 	const { id } = useParams();
+	const history = useHistory();
 	const [init, setInit] = useState(false);
 	const [product, setProduct] = useState([]);
+	const [open, setOpen] = React.useState(false);
 	const stars = [1, 2, 3, 4, 5];
-
+	
 	useEffect(() => {
 		getProduct();
 	}, [])
-
+	
 	const getProduct = async () => {
 		setInit(false);
 		const docRef = doc(db, "products", id);
 		const docSnap = await getDoc(docRef);
 		setProduct(docSnap.data());
 		setInit(true);
+	}
+	
+	const handleOpen = () => setOpen(true);
+
+	const handleClose = () => setOpen(false);
+
+	const onClickDelete = async () => {
+		const imageRef = ref(storage, product.attachmentUrl);
+		await deleteObject(imageRef);
+
+		const docRef = 	doc(db, "products", id);
+		await deleteDoc(docRef);
+		history.push("/");
 	}
 
 	return (
@@ -48,7 +62,7 @@ const ProductView = () => {
 			sx={{ 
 				p: '2.5em',
 				width: { xs: '100%', sm: '100%', md: '70%', lg: '50%' }, 
-				minHeight: "620px", 
+				minHeight: "650px", 
 				display: 'flex',  
 				flexDirection: 'column',
 			}}>
@@ -77,8 +91,52 @@ const ProductView = () => {
 				component="div"
 				sx={divStyle}
 				>
-					<Button sx={{ mb: '8px' }} variant="contained">Edit</Button>
-					<Button variant="outlined" color="error">Delete</Button>
+					<Button
+					component="a"
+					href={`/edit/${id}`}
+					sx={{ mb: '8px' }} 
+					variant="contained"
+					>Edit</Button>
+					<Button 
+					onClick={handleOpen}
+					variant="outlined" 
+					color="error"
+					>Delete</Button>
+					<Modal
+					open={open}
+					onClose={handleClose}
+					aria-labelledby="modal-delete"
+					>
+					<Paper
+					id="modal-delete"
+					elevation={9}
+					sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'space-between',
+					position: 'absolute',
+					top: '50%',
+					left: '50%',
+					transform: 'translate(-50%, -50%)',
+					height: 140,
+					width: 350,
+					bgcolor: 'background.paper',
+					boxShadow: 24,
+					p: 1,
+					outline: 0,
+					}}
+					>
+						<Typography sx={{pt: '0.5rem'}} variant="h6" align="center">You are about to delete this product</Typography>
+						<Box
+						component="div"
+						sx={{ display: 'flex', justifyContent: 'flex-end' }}
+						>
+							<Button onClick={onClickDelete}>Confirm</Button>
+							<Button onClick={handleClose}>Cancel</Button>
+						</Box>
+					</Paper>
+
+					</Modal>
 				</Box>
 			</Paper>
 		)}
