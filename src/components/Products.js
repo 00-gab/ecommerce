@@ -61,6 +61,7 @@ const Products = ({ products }) => {
 					width="auto"
 					// sx={{ width: 'auto', height: '100%'}}
 					/>
+					<Divider />
 					<CardContent sx={{ flexGrow: 1, mb: '8px' }}>
 						<Typography variant="h5" gutterBottom>
 							{product.name}

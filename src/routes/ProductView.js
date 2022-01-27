@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { ref, deleteObject } from "firebase/storage";
-import { doc, getDoc, deleteDoc } from "firebase/firestore";
-import { db, storage } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import { 
 	Box,
 	Button,
@@ -13,6 +12,7 @@ import {
 } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
+import { onClickDelete, modalStyle } from "../utils";
 
 const divStyle = {
 	display: 'flex',
@@ -45,12 +45,8 @@ const ProductView = () => {
 
 	const handleClose = () => setOpen(false);
 
-	const onClickDelete = async () => {
-		const imageRef = ref(storage, product.attachmentUrl);
-		await deleteObject(imageRef);
-
-		const docRef = 	doc(db, "products", id);
-		await deleteDoc(docRef);
+	const confirmDelete = () => {
+		onClickDelete(product.attachmentUrl, id)
 		history.push("/");
 	}
 
@@ -110,32 +106,17 @@ const ProductView = () => {
 					<Paper
 					id="modal-delete"
 					elevation={9}
-					sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'space-between',
-					position: 'absolute',
-					top: '50%',
-					left: '50%',
-					transform: 'translate(-50%, -50%)',
-					height: 140,
-					width: 350,
-					bgcolor: 'background.paper',
-					boxShadow: 24,
-					p: 1,
-					outline: 0,
-					}}
+					sx={modalStyle}
 					>
 						<Typography sx={{pt: '0.5rem'}} variant="h6" align="center">You are about to delete this product</Typography>
 						<Box
 						component="div"
 						sx={{ display: 'flex', justifyContent: 'flex-end' }}
 						>
-							<Button onClick={onClickDelete}>Confirm</Button>
+							<Button onClick={confirmDelete}>Confirm</Button>
 							<Button onClick={handleClose}>Cancel</Button>
 						</Box>
 					</Paper>
-
 					</Modal>
 				</Box>
 			</Paper>
