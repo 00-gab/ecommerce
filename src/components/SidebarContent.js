@@ -12,8 +12,8 @@ import {
 	Toolbar,
 	Typography,
 } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
@@ -47,7 +47,7 @@ const SidebarContent = () => {
 	return (
 		<div>
 			<Toolbar>
-				<AdminPanelSettingsIcon fontSize="large" />
+				<AccountCircleIcon fontSize="large" />
 				<Typography variant="h5" sx={{ ml: '8px' }}>Admin</Typography>
 			</Toolbar>
 			<Divider />

@@ -3,16 +3,27 @@ import {
 	Box,
 	Button,
 	Paper,
+	Snackbar,
 	TextField,
 	Typography,
 } from "@mui/material";
-import { addModerator } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { db, addModerator } from "../firebase";
 import { styles } from "../utils";
+
 
 const AddModerator = () => {
 	const [loading, setLoading] = useState(false);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [open, setOpen] = useState(false);
+
+	const handleClose = (event, reason) => {
+		if (reason === 'clickaway') {
+		  return;
+		}
+		setOpen(false);
+	};
 
 	const onChange = (event) => {
 		const { target: { name, value } } = event;
@@ -23,12 +34,13 @@ const AddModerator = () => {
 	const onSubmit = async (event) => {
 		event.preventDefault();
 		setLoading(true);
-		const userData = {
-			email: email,
-			password: password,
-		}
-		addModerator(userData);
+		const collectionRef = collection(db, "users");
+		await addDoc(collectionRef, {email, role: 'admin'});
+		addModerator({email, password});
 		setLoading(false);
+		setOpen(true);
+		setEmail("");
+		setPassword("");
 	}
 
 	return (
@@ -82,6 +94,14 @@ const AddModerator = () => {
 				>Create User</Button>
 				</Box>
 			</Paper>
+			<Snackbar 
+			open={open} 
+			autoHideDuration={5000} 
+			onClose={handleClose}
+			anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+			message="Moderator Added!"
+			>
+			</Snackbar>
 		</Box>
 	);
 }
