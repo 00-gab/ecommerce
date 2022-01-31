@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { ref, uploadString, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { 
@@ -26,8 +26,9 @@ const AddProduct = ({ setModalOpen }) => {
 	const [productName, setProductName] = useState("");
 	const [productPrice, setProductPrice] = useState("");
 	const [productStocks, setProductStocks] = useState("");
-	const [attachment, setAttachment] = useState(null);
+	const [attachments, setAttachments] = useState([]);
 	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	const onChange = (event) => {
 		const { target: { name, value } } = event;
@@ -37,41 +38,46 @@ const AddProduct = ({ setModalOpen }) => {
 	}
 
 	const onFileChange = (event) => {
-		const { target: { files } } = event;
-		const imgFile = files[0];
-		const reader = new FileReader();
-		reader.onloadend = (finishedEvent) => {
-			const { currentTarget: { result } } = finishedEvent;
-			setAttachment(result);
+		const { target: { files }, target: { files: { length } } } = event;
+		for (let i = 0; i < length; i++) {
+			const newAttachment = files[i];
+			setAttachments(prev => [...prev, newAttachment]);
 		}
-		reader.readAsDataURL(imgFile);
 	}
 
 	const onSubmit = async (event) => {
 		event.preventDefault();
-		if (attachment === null) {
+		setLoading(true);
+		let data;
+		if (attachments === null) {
 			setError("Image is required...");
 			return;
 		}
-		let attachmentUrl = null;
-		if (attachment !== null) {
-			const attachmentRef = ref(storage, `admin/${uuidv4()}`);
-			await uploadString(attachmentRef, attachment, 'data_url');
-			attachmentUrl = await getDownloadURL(attachmentRef);
+		if (attachments !== null) {
+			let temp = [];
+			for (let i = 0; i < attachments.length; i++) {
+				const attachment = attachments[i]
+				const attachmentRef = ref(storage, `admin/${uuidv4()}`);
+				await uploadBytes(attachmentRef, attachment);
+				const attachmentUrl = await getDownloadURL(attachmentRef);
+				temp.push(attachmentUrl);
+			}
+			data = {
+				name: productName,
+				price: productPrice,
+				stocks: productStocks,
+				urls: temp,
+			};
+			const collectionRef = collection(db, "products");
+			await addDoc(collectionRef, data);
 		}
-		const data = {
-			name: productName,
-			price: productPrice,
-			stocks: productStocks,
-			attachmentUrl,
-		};
-		const collectionRef = collection(db, "products");
-		await addDoc(collectionRef, data);
-		setAttachment(null);
+		
+		setAttachments([]);
 		setProductName("");
 		setProductPrice("");
 		setProductStocks("");
-		setModalOpen(false);
+		setLoading(false);
+		// setModalOpen(false);
 	}
 
 	return (
@@ -122,6 +128,14 @@ const AddProduct = ({ setModalOpen }) => {
 			{error && (
 			<Typography sx={{ color: "warning.main" }} gutterBottom>{error}</Typography>
 		)}
+			{attachments[0] && (
+			<Box
+			component="img"
+			src={attachments[0]}
+			height="150px"
+			width="150px"
+			/>
+			)}
 			<Stack direction="row" alignItems="center" spacing={2}>
 			<label htmlFor="contained-button-file">
 				<Input 
@@ -131,7 +145,7 @@ const AddProduct = ({ setModalOpen }) => {
 				type="file" 
 				onChange={onFileChange}
 				/>
-				<Button variant="contained" component="span">
+				<Button variant="contained" component="span" disabled={loading}>
 				add product image
 				</Button>
 			</label>
@@ -143,6 +157,7 @@ const AddProduct = ({ setModalOpen }) => {
 					m: '8px 0' }} 
 				type="submit"
 				variant="contained"
+				disabled={loading}
 			>Add Product</Button>
 		</Box>
 	);

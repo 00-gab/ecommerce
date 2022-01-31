@@ -55,7 +55,7 @@ const Products = ({ products }) => {
 				<Card sx={{ maxWidth: 345, height: '500px', p: '0.5rem' }}>
 					<CardMedia
 					component="img" 
-					image={product.attachmentUrl}
+					image={product.urls[0]}
 					title={product.name}
 					height="50%"
 					width="auto"
