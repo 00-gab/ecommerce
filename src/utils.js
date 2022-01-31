@@ -26,3 +26,9 @@ export const modalStyle = {
 	p: 1,
 	outline: 0,
 }
+
+export const styles = {
+	"spacing": "1.125rem",
+	"btn-padding": "0.5rem",
+	"fs-primary": "1.125rem",
+}

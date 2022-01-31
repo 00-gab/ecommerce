@@ -13,16 +13,11 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
+import { styles } from "../utils";
 
 const Input = styled('input')({
 	display: 'none',
 });
-
-const styles = {
-	"spacing": "1.125rem",
-	"btn-padding": "0.5rem",
-	"fs-primary": "1.125rem",
-}
 
 const Edit = () => {
 	const { id } = useParams();

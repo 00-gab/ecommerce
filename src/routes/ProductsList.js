@@ -67,7 +67,7 @@ const ProductsList = () => {
 								</Button>
 								<Button
 								component="a"
-								href={`/edit/:id`}
+								href={`/edit/${product.id}`}
 								>
 								Edit
 								</Button>

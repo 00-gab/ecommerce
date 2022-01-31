@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import AddModerator from "../routes/AddModerator";
 import Dashboard from "../routes/Dashboard";
 import Edit from "../routes/Edit";
 import Login from "../routes/Login";
@@ -51,6 +52,14 @@ const AppRouter = ({ isLoggedIn,  drawerWidth, mobileOpen, handleDrawerToggle}) 
 						<Route exact path="/transactions">
 							<AppContainer 
 							Element={Transactions} 
+							drawerWidth={drawerWidth} 
+							handleDrawerToggle={handleDrawerToggle} 
+							mobileOpen={mobileOpen} 
+							/>
+						</Route>
+						<Route exact path="/add-moderator">
+							<AppContainer 
+							Element={AddModerator} 
 							drawerWidth={drawerWidth} 
 							handleDrawerToggle={handleDrawerToggle} 
 							mobileOpen={mobileOpen} 

@@ -13,6 +13,7 @@ import {
 	Typography,
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
@@ -46,7 +47,7 @@ const SidebarContent = () => {
 	return (
 		<div>
 			<Toolbar>
-				<SupervisorAccountIcon />
+				<AdminPanelSettingsIcon fontSize="large" />
 				<Typography variant="h5" sx={{ ml: '8px' }}>Admin</Typography>
 			</Toolbar>
 			<Divider />
@@ -101,6 +102,12 @@ const SidebarContent = () => {
 						<PaymentsIcon />
 					</ListItemIcon>
 					<ListItemText primary="Transactions" />
+				</ListItemButton>
+				<ListItemButton component="a" href="/add-moderator">
+					<ListItemIcon>
+						<SupervisorAccountIcon />
+					</ListItemIcon>
+					<ListItemText primary="Add Moderator" />
 				</ListItemButton>
 			</List>
 			<Divider />
