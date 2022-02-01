@@ -27,6 +27,7 @@ const AddProduct = ({ setModalOpen }) => {
 	const [productPrice, setProductPrice] = useState("");
 	const [productStocks, setProductStocks] = useState("");
 	const [attachments, setAttachments] = useState([]);
+	const [preview, setPreview] = useState([]);
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
@@ -39,10 +40,14 @@ const AddProduct = ({ setModalOpen }) => {
 
 	const onFileChange = (event) => {
 		const { target: { files }, target: { files: { length } } } = event;
+		const selectedFiles = [];
 		for (let i = 0; i < length; i++) {
 			const newAttachment = files[i];
 			setAttachments(prev => [...prev, newAttachment]);
 		}
+		const filesObj = [...files];
+		filesObj.map((file) => selectedFiles.push(URL.createObjectURL(file)));
+		setPreview(selectedFiles);
 	}
 
 	const onSubmit = async (event) => {
@@ -128,14 +133,18 @@ const AddProduct = ({ setModalOpen }) => {
 			{error && (
 			<Typography sx={{ color: "warning.main" }} gutterBottom>{error}</Typography>
 		)}
-			{attachments[0] && (
-			<Box
-			component="img"
-			src={attachments[0]}
-			height="150px"
-			width="150px"
-			/>
-			)}
+			<Box component="div" >
+				{preview && preview.map(img => (
+				<Box 
+				key={img}
+				component="img"
+				src={img}
+				height="50px"	
+				width="50px"	
+				/>
+				))
+			}
+			</Box>
 			<Stack direction="row" alignItems="center" spacing={2}>
 			<label htmlFor="contained-button-file">
 				<Input 
