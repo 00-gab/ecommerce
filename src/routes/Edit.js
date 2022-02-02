@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { ref, deleteObject, getDownloadURL, uploadString } from "firebase/storage";
+import { ref, deleteObject, getDownloadURL, uploadBytes } from "firebase/storage";
 import { db, storage } from "../firebase";
 import { 
 	Box,
@@ -23,11 +23,12 @@ const Edit = () => {
 	const { id } = useParams();
 	const history = useHistory();
 	const [product, setProduct] = useState(null);
-	const [attachment, setAttachment] = useState(null);
+	const [attachments, setAttachments] = useState([]);
 	const [productName, setProductName] = useState("");
 	const [productPrice, setProductPrice] = useState("");
 	const [productStocks, setProductStocks] = useState("");
-	const [originalImg, setOriginalImg] = useState(null);
+	const [originalUrlRef, setOriginalUrlRef] = useState([]);
+	const [preview, setPreview] = useState([]);
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
@@ -42,8 +43,8 @@ const Edit = () => {
 		setProductName(docSnap.data().name);
 		setProductPrice(docSnap.data().price);
 		setProductStocks(docSnap.data().stocks);
-		setAttachment(docSnap.data().attachmentUrl);
-		setOriginalImg(docSnap.data().attachmentUrl);
+		setPreview(docSnap.data().urls);
+		setOriginalUrlRef(docSnap.data().urls);
 	}
 
 	const onChange = (event) => {
@@ -54,50 +55,46 @@ const Edit = () => {
 	}
 
 	const onFileChange = (event) => {
-		const { target: { files } } = event;
-		const imgFile = files[0];
-		const reader = new FileReader();
+		const { target: { files }, target: { files: { length } } } = event;
+		const selectedFiles = [];
 
-		reader.onload = (e) => {
-			const { target: { result } } = e;
-			setAttachment(result);
+		for (let i = 0; i < length; i++) {
+			const newAttachment = files[i];
+			setAttachments(prev => [...prev, newAttachment]);
 		}
 
-		reader.onloadend = (finishedEvent) => {
-			const { currentTarget: { result } } = finishedEvent;
-			setAttachment(result);
-		}
-
-		reader.readAsDataURL(imgFile);
+		const filesObj = [...files];
+		filesObj.map((file) => selectedFiles.push(URL.createObjectURL(file)));
+		setPreview(selectedFiles);
 	}
 
 	const onSubmit = async (event) => {
 		event.preventDefault();
-		if (attachment === null) {
-			setError('Image is required...');
-			return;
-		}
 		setLoading(true);
-		let attachmentUrl = null;
-		if (attachment === originalImg) {
-			attachmentUrl = attachment;
-		} else {
-			// delete image reference from fbase storage
-			if (originalImg !== null) {
-				const imageRef = ref(storage, originalImg);
-				await deleteObject(imageRef);
+		let data;
+		let temp = [...attachments];
+		if (attachments !== null) {
+			temp = []; 
+			for (let i = 0; i < attachments.length; i++) {
+				const attachment = attachments[i];
+				const attachmentRef = ref(storage, `admin/${uuidv4()}`);
+				await uploadBytes(attachmentRef, attachment);
+				const attachmentUrl = await getDownloadURL(attachmentRef)
+				temp.push(attachmentUrl);
 			}
-			// upload the new one
-			const attachmentRef = ref(storage, `admin/${uuidv4()}`);
-			await uploadString(attachmentRef, attachment, 'data_url');
-			attachmentUrl = await getDownloadURL(attachmentRef);
+			for (let j = 0; j < originalUrlRef.length; j++) {
+				const url = originalUrlRef[j];
+				const imageRef = ref(storage, url);
+				deleteObject(imageRef)
+				.then(() => console.log(`${url} is succesfully deleted`))
+				.catch((error) => console.log(error));
+			}
 		}
-
-		const data = {
+		data = {
 			'name': productName,
 			'price': productPrice,
 			'stocks': productStocks,
-			attachmentUrl,
+			'urls': temp,
 		}
 		const docRef = doc(db, "products", id);
 		await updateDoc(docRef, data);
@@ -159,12 +156,26 @@ const Edit = () => {
 				{error && (
 				<Typography sx={{ color: "warning.main" }} gutterBottom>{error}</Typography>
 			)}
-				<Box
+				{/** Start of image preview */}
+				<Box component="div" >
+				{preview && preview.map(img => (
+				<Box 
+				key={img}
+				component="img"
+				src={img}
+				height="50px"	
+				width="50px"	
+				/>
+				))
+				}
+				</Box>
+				{/** Start of image preview */}
+				{/* <Box
 				component="img"
 				src={attachment}
 				height="150px"
 				width="150px"
-				/>
+				/> */}
 				<Stack direction="row" alignItems="center" spacing={2}>
 				<label htmlFor="contained-button-file">
 					<Input 

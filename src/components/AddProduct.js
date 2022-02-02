@@ -143,7 +143,7 @@ const AddProduct = ({ setModalOpen }) => {
 				width="50px"	
 				/>
 				))
-			}
+				}
 			</Box>
 			<Stack direction="row" alignItems="center" spacing={2}>
 			<label htmlFor="contained-button-file">

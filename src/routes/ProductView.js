@@ -12,13 +12,8 @@ import {
 } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
-import MobileStepper from '@mui/material/MobileStepper';
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
-import { useTheme } from '@mui/material/styles';
+import Carousel from "../components/Carousel";
 import { onClickDelete, modalStyle } from "../utils";
 
 const divStyle = {
@@ -28,35 +23,26 @@ const divStyle = {
 	m: '8px 0 8px'
 }
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const ProductView = () => {
 	const { id } = useParams();
 	const history = useHistory();
+
+	const [activeStep, setActiveStep] = useState(0);
 	const [init, setInit] = useState(false);
-	const [product, setProduct] = useState([]);
+	const [maxSteps, setMaxSteps] = useState(0);
 	const [open, setOpen] = React.useState(false);
+	const [product, setProduct] = useState([]);
 	const stars = [1, 2, 3, 4, 5];
 
-	const theme = useTheme();
-	const [activeStep, setActiveStep] = useState(0);
-  	const [maxSteps, setMaxSteps] = useState(0);
-
-	const handleNext = () => {
-	setActiveStep((prevActiveStep) => prevActiveStep + 1);
-	};
-
-	const handleBack = () => {
-	setActiveStep((prevActiveStep) => prevActiveStep - 1);
-	};
-
-	const handleStepChange = (step) => {
-	setActiveStep(step);
-	};
-	
 	useEffect(() => {
 		getProduct();
 	}, [])
+
+	const confirmDelete = () => {
+		onClickDelete(product.attachmentUrl, id)
+		history.push("/");
+	}
 	
 	const getProduct = async () => {
 		setInit(false);
@@ -66,15 +52,22 @@ const ProductView = () => {
 		setMaxSteps(docSnap.data().urls.length);
 		setInit(true);
 	}
-	
-	const handleOpen = () => setOpen(true);
+
+	const handleBack = () => {
+	setActiveStep((prevActiveStep) => prevActiveStep - 1);
+	};
 
 	const handleClose = () => setOpen(false);
 
-	const confirmDelete = () => {
-		onClickDelete(product.attachmentUrl, id)
-		history.push("/");
-	}
+	const handleNext = () => {
+	setActiveStep((prevActiveStep) => prevActiveStep + 1);
+	};
+
+	const handleOpen = () => setOpen(true);
+
+	const handleStepChange = (step) => {
+	setActiveStep(step);
+	};
 
 	return (
 		<Box sx={{ p: '1em', width: { lg: '100%', md: '100%', xs: '500px' }, height: 'auto', display: 'flex', justifyContent: 'center' }}>
@@ -91,59 +84,15 @@ const ProductView = () => {
 				<Typography variant="h3" gutterBottom>{product.name}</Typography>
 				<Divider />
 				{/** start of carousel  */}
-				<Box sx={{ minWidth: "100%", flexGrow: 1 }}>
-				<AutoPlaySwipeableViews
-				axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-				index={activeStep}
-				onChangeIndex={handleStepChange}
-				enableMouseEvents
-      			>
-				  {product.urls.map((step, index) => (
-					  <Box sx={{ display: 'flex', justifyContent: 'center' }} key={step}>
-						{Math.abs(activeStep - index) <= 2 ? (
-							<Box
-							component="img"
-							src={step}
-							sx={{
-							width: "300px",
-							height: "auto",
-							overflow: 'hidden',
-							}}
-							/>
-						) : null }
-					  </Box>
-				  ))}
-				</AutoPlaySwipeableViews>
-				<MobileStepper
-				steps={maxSteps}
-				position="static"
+				{/** make carousel a separate component  */}
+				<Carousel 
+				urls={product.urls}
 				activeStep={activeStep}
-				nextButton={
-					<Button
-					size="small"
-					onClick={handleNext}
-					disabled={activeStep === maxSteps - 1}
-					>
-						Next
-						{theme.direction === 'rtl' ? (
-						<KeyboardArrowLeft />
-						) : (
-						<KeyboardArrowRight />
-						)}
-					</Button>
-					}
-					backButton={
-					<Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-						{theme.direction === 'rtl' ? (
-						<KeyboardArrowRight />
-						) : (
-						<KeyboardArrowLeft />
-						)}
-						Back
-					</Button>
-					}
+				maxSteps={maxSteps}
+				handleNext={handleNext}
+				handleBack={handleBack}
+				handleStepChange={handleStepChange}
 				/>
-				</Box>
 				{/** end of carousel  */}
 				<Divider />
 				<Box
