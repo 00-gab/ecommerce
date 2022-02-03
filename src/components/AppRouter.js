@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import AddModerator from "../routes/AddModerator";
 import Dashboard from "../routes/Dashboard";
 import Edit from "../routes/Edit";
+import LandingPage from "../routes/LandingPage";
 import Login from "../routes/Login";
 import Orders from "../routes/Orders"
 import ProductView from "../routes/ProductView";
@@ -11,11 +12,19 @@ import Transactions from "../routes/Transactions"
 
 import AppContainer from "./AppContainer";
 
-const AppRouter = ({ isLoggedIn,  drawerWidth, mobileOpen, handleDrawerToggle}) => {
+const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerToggle}) => {
 	return (
 		<Router>
 			<Switch>
-				{isLoggedIn ? (
+				{!isLoggedIn && (
+					<>
+						<Route exact path="/">
+							<Login />
+						</Route>
+						<Redirect from="*" to="/" />
+					</>
+				)}
+				{userObj && (userObj[0].role === 'admin') ? (
 					<>
 						<Route exact path="/">
 							<AppContainer 
@@ -77,14 +86,13 @@ const AppRouter = ({ isLoggedIn,  drawerWidth, mobileOpen, handleDrawerToggle}) 
 				) :
 				<>
 					<Route exact path="/">
-						<Login />
+						<LandingPage />
 					</Route>
-					<Redirect from="*" to="/" />
 				</>
 				}
 			</Switch>
 		</Router>
 	);
 }
- 
+
 export default AppRouter;

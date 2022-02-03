@@ -7,10 +7,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { authService } from "../firebase";
-
+import { collection, addDoc } from "firebase/firestore";
+import { db, authService } from "../firebase";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
@@ -18,6 +18,7 @@ const Login = () => {
 	const [newAccount, setNewAccount] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
+	const history = useHistory();
 
 	const styles = {
 		"spacing": "12px",
@@ -37,6 +38,12 @@ const Login = () => {
 		try {
 			if (newAccount) {
 				// sign up
+				let data = {
+					email,
+					role: 'user',
+				}
+				const collectionRef = collection(db, "users");
+				await addDoc(collectionRef, data);
 				await createUserWithEmailAndPassword(authService, email, password);
 			} else {
 				await signInWithEmailAndPassword(authService, email, password);
@@ -45,6 +52,7 @@ const Login = () => {
 			setError(error.message);
 		}
 		setLoading(false);
+		history.push("/");
 	}
 
 	const onToggleClick = () => setNewAccount((prev) => !prev);
@@ -71,9 +79,9 @@ const Login = () => {
 					}
 				</Grid>
 				<TextField 
-				label='Username' 
+				label='Email' 
 				variant='outlined'
-				placeholder='Enter username' 
+				placeholder='Enter email' 
 				name='email'
 				value={email}
 				onChange={onChange}

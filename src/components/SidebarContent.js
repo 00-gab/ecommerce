@@ -41,7 +41,7 @@ const SidebarContent = () => {
 
 	const onLogOutClick = () => {
 		signOut(authService);
-		history.push("/")
+		history.push("/");
 	}
 
 	return (
