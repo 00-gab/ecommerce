@@ -27,10 +27,7 @@ const divStyle = {
 const ProductView = () => {
 	const { id } = useParams();
 	const history = useHistory();
-
-	const [activeStep, setActiveStep] = useState(0);
 	const [init, setInit] = useState(false);
-	const [maxSteps, setMaxSteps] = useState(0);
 	const [open, setOpen] = React.useState(false);
 	const [product, setProduct] = useState([]);
 	const stars = [1, 2, 3, 4, 5];
@@ -49,25 +46,12 @@ const ProductView = () => {
 		const docRef = doc(db, "products", id);
 		const docSnap = await getDoc(docRef);
 		setProduct(docSnap.data());
-		setMaxSteps(docSnap.data().urls.length);
 		setInit(true);
 	}
 
-	const handleBack = () => {
-	setActiveStep((prevActiveStep) => prevActiveStep - 1);
-	};
-
 	const handleClose = () => setOpen(false);
 
-	const handleNext = () => {
-	setActiveStep((prevActiveStep) => prevActiveStep + 1);
-	};
-
 	const handleOpen = () => setOpen(true);
-
-	const handleStepChange = (step) => {
-	setActiveStep(step);
-	};
 
 	return (
 		<Box sx={{ p: '1em', width: { lg: '100%', md: '100%', xs: '500px' }, height: 'auto', display: 'flex', justifyContent: 'center' }}>
@@ -83,17 +67,14 @@ const ProductView = () => {
 			}}>
 				<Typography variant="h3" gutterBottom>{product.name}</Typography>
 				<Divider />
-				{/** start of carousel  */}
-				{/** make carousel a separate component  */}
-				<Carousel 
-				urls={product.urls}
-				activeStep={activeStep}
-				maxSteps={maxSteps}
-				handleNext={handleNext}
-				handleBack={handleBack}
-				handleStepChange={handleStepChange}
+				<Box
+				component="img"
+				src={product.attachmentUrl}
+				width="250px"
+				height="auto"
+				alignSelf="center"
+				sx={{ p: '0.8rem' }}
 				/>
-				{/** end of carousel  */}
 				<Divider />
 				<Box
 				component="div"

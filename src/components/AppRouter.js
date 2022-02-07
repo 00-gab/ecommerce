@@ -19,12 +19,14 @@ const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerT
 				{!isLoggedIn && (
 					<>
 						<Route exact path="/">
+							<LandingPage />
+						</Route>
+						<Route exact path="/login">
 							<Login />
 						</Route>
-						<Redirect from="*" to="/" />
 					</>
 				)}
-				{userObj && (userObj[0].role === 'admin') ? (
+				{(userObj && userObj[0].role === 'admin') && (
 					<>
 						<Route exact path="/">
 							<AppContainer 
@@ -83,13 +85,7 @@ const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerT
 							/>
 						</Route>
 					</>
-				) :
-				<>
-					<Route exact path="/">
-						<LandingPage />
-					</Route>
-				</>
-				}
+				)}
 			</Switch>
 		</Router>
 	);

@@ -122,25 +122,25 @@ const LandingPage = () => {
 	const products = [
 		{
 			file: 'prod2',
-			name: 'Arabica',
+			name: 'Yuqi Original',
 			price: '$48',
 			review: '102',
 		},
 		{
 			file: 'prod3',
-			name: 'Espresso Blend',
+			name: 'Soyeon Medium Roast',
 			price: '$49',
 			review: '159',
 		},
 		{
 			file: 'prod4',
-			name: 'Mocha',
+			name: 'Miyeon Blend',
 			price: '$32',
 			review: '25',
 		},
 		{
 			file: 'prod5',
-			name: 'Latte',
+			name: 'Shuhua Yeobun Blend',
 			price: '$12',
 			review: '93',
 		},
@@ -160,9 +160,8 @@ const LandingPage = () => {
 						<Typography variant="h6" sx={{letterSpacing: '3px'}}>YUQI</Typography>
 					</Box>
 					<Stack direction="row" spacing={2}>
-						<Button color="inherit" href="#text-buttons">Login</Button>
-						<Button color="inherit" href="#text-buttons">Sign up</Button>
-						<Button color="inherit" href="#text-buttons"><ShoppingBasketIcon /></Button>
+						<Button color="inherit" href="/login">Login</Button>
+						<Button color="inherit"><ShoppingBasketIcon /></Button>
 					</Stack>
 				</Box>
 				<Box component="div" sx={styles.headerContent}>
@@ -184,7 +183,8 @@ const LandingPage = () => {
 				/>
 			</Box>
 			<Box sx={styles.productSection}>
-				<Typography variant="h4" align="center" gutterBottom>Our Coffee</Typography>
+				<Typography variant="h4" align="center">OUR BEST SELLERS</Typography>
+				<Typography variant="overline" display="block" align="center" gutterBottom>experience the unique taste of our coffee</Typography>
 				<Box sx={styles.productContainer}>
 					{products.map(product => (
 						<Box key={product.file} sx={styles.productStyles}>
@@ -198,20 +198,19 @@ const LandingPage = () => {
 									height="250px"
 									/>
 								</Box>
-								<Divider />
 								<Box
 								component="div"
 								sx={styles.detailContainer}
 								>
-									<Typography variant="h5">{product.name}</Typography>
+									<Typography variant="h5" sx={{ fontSize: '1.25rem' }}>{product.name}</Typography>
 									<Box
 									component="div"
 									sx={{ display: 'flex', color: '#515C67' }}
 									>
-										{stars.map(star => (<StarIcon />))}
-										<Typography color="inherit">{`${product.review} reviews`}</Typography>
+										{stars.map(star => (<StarIcon key={star} />))}
+										<Typography color="inherit" align="center" sx={{ fontSize: '1.125rem' }}>{`${product.review} reviews`}</Typography>
 									</Box>
-									<Typography variant="h5">{product.price}</Typography>
+									<Typography variant="h5" sx={{ fontSize: '1.125rem' }}>{product.price}</Typography>
 								</Box>
 							</Paper>
 						</Box>

@@ -2,7 +2,6 @@ import { db, storage } from "./firebase";
 import { ref, deleteObject } from "firebase/storage";
 import { doc, deleteDoc } from "firebase/firestore";
 
-
 export const onClickDelete = async (imageUrl, id) => {
 	const imageRef = ref(storage, imageUrl);
 	await deleteObject(imageRef);

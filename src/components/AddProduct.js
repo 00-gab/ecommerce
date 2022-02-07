@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { 
@@ -26,8 +26,8 @@ const AddProduct = ({ setModalOpen }) => {
 	const [productName, setProductName] = useState("");
 	const [productPrice, setProductPrice] = useState("");
 	const [productStocks, setProductStocks] = useState("");
-	const [attachments, setAttachments] = useState([]);
-	const [preview, setPreview] = useState([]);
+	const [attachment, setAttachment] = useState("");
+	const [preview, setPreview] = useState("");
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
@@ -39,45 +39,42 @@ const AddProduct = ({ setModalOpen }) => {
 	}
 
 	const onFileChange = (event) => {
-		const { target: { files }, target: { files: { length } } } = event;
-		const selectedFiles = [];
-		for (let i = 0; i < length; i++) {
-			const newAttachment = files[i];
-			setAttachments(prev => [...prev, newAttachment]);
+		const { target: { files } } = event;
+		const imgFile = files[0];
+		const reader = new FileReader();
+		reader.onloadend = (finishedEvent) => {
+			const { currentTarget: { result } } = finishedEvent;
+			setAttachment(result);
 		}
-		const filesObj = [...files];
-		filesObj.map((file) => selectedFiles.push(URL.createObjectURL(file)));
-		setPreview(selectedFiles);
+		reader.readAsDataURL(imgFile);
+		setPreview(URL.createObjectURL(imgFile));
 	}
 
 	const onSubmit = async (event) => {
 		event.preventDefault();
 		setLoading(true);
 		let data;
-		if (attachments === null) {
+		if (attachment === null) {
 			setError("Image is required...");
 			return;
 		}
-		if (attachments !== null) {
-			let temp = [];
-			for (let i = 0; i < attachments.length; i++) {
-				const attachment = attachments[i]
-				const attachmentRef = ref(storage, `admin/${uuidv4()}`);
-				await uploadBytes(attachmentRef, attachment);
-				const attachmentUrl = await getDownloadURL(attachmentRef);
-				temp.push(attachmentUrl);
-			}
-			data = {
-				name: productName,
-				price: productPrice,
-				stocks: productStocks,
-				urls: temp,
-			};
-			const collectionRef = collection(db, "products");
-			await addDoc(collectionRef, data);
+		let attachmentUrl = null;
+		if (attachment !== null) {
+			const attachmentRef = ref(storage, `admin/${uuidv4()}`);
+			await uploadString(attachmentRef, attachment, 'data_url');
+			attachmentUrl = await getDownloadURL(attachmentRef);
 		}
+		data = {
+			name: productName,
+			price: productPrice,
+			stocks: productStocks,
+			attachmentUrl,
+		};
+		const collectionRef = collection(db, "products");
+		await addDoc(collectionRef, data);
 		
-		setAttachments([]);
+		setPreview("");
+		setAttachment("");
 		setProductName("");
 		setProductPrice("");
 		setProductStocks("");
@@ -134,15 +131,14 @@ const AddProduct = ({ setModalOpen }) => {
 			<Typography sx={{ color: "warning.main" }} gutterBottom>{error}</Typography>
 		)}
 			<Box component="div" >
-				{preview && preview.map(img => (
-				<Box 
-				key={img}
+				{preview && (
+				<Box
 				component="img"
-				src={img}
+				src={preview}
 				height="50px"	
 				width="50px"	
 				/>
-				))
+				)
 				}
 			</Box>
 			<Stack direction="row" alignItems="center" spacing={2}>
