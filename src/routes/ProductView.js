@@ -13,7 +13,6 @@ import {
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 
-import Carousel from "../components/Carousel";
 import { onClickDelete, modalStyle } from "../utils";
 
 const divStyle = {

@@ -1,25 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { ref, deleteObject, getDownloadURL, uploadString } from "firebase/storage";
-import { db, storage } from "../firebase";
-import { 
-	Box,
-	Button,
-	Paper,
-	Stack,
-	styled,
-	TextField,
-	Typography,
-} from "@mui/material";
-import { styles } from "../utils";
+import { db, storage } from "../../firebase";
 
-const Input = styled('input')({
-	display: 'none',
-});
-
-const Edit = () => {
+const Logic = () => {
 	const { id } = useParams();
 	const history = useHistory();
 	const [product, setProduct] = useState(null);
@@ -73,7 +59,6 @@ const Edit = () => {
 
 	const onSubmit = async (event) => {
 		event.preventDefault();
-		console.log(attachment)
 		if (attachment === null) {
 			setError('Image is required...');
 			return;
@@ -106,93 +91,18 @@ const Edit = () => {
 		history.push("/")
 	}
 
-	return (
-		<Box sx={{display: 'flex', justifyContent: 'center', p: '1em'}}>
-			{product && (
-			<Paper 
-			elevation={9}
-			sx={{ width: {xs: '100%', sm: '100%', md: '60%', lg: '50%'}, height: 'auto', p: '1em' }}
-			>
-				<Box 
-				component="form" 
-				onSubmit={onSubmit} 
-				sx={{ 
-				width: '100%', 
-				display: 'flex',
-				flexDirection: 'column', 
-				justifyContent: 'center',
-				}}
-				>
-				<Typography variant="h3" gutterBottom>Edit Product</Typography>
-				<TextField
-				sx={{ mb: styles["spacing"] }}
-				label='Product Name' 
-				variant='outlined'
-				placeholder='Enter product name' 
-				name='product'
-				onChange={onChange}
-				value={productName}
-				fullWidth
-				required
-				/>
-				<TextField
-				sx={{ mb: styles["spacing"] }}
-				label='Product Price' 
-				variant='outlined'
-				placeholder='Enter product price' 
-				name='price'
-				onChange={onChange}
-				value={productPrice}
-				fullWidth
-				required
-				/>
-				<TextField
-				sx={{ mb: styles["spacing"] }}
-				label='Stocks' 
-				variant='outlined'
-				placeholder='Enter product price' 
-				name='stocks'
-				onChange={onChange}
-				value={productStocks}
-				fullWidth
-				required
-				/>
-				{error && (
-				<Typography sx={{ color: "warning.main" }} gutterBottom>{error}</Typography>
-			)}
-				<Box
-				component="img"
-				src={attachment}
-				height="150px"
-				width="150px"
-				/>
-				<Stack direction="row" alignItems="center" spacing={2}>
-				<label htmlFor="contained-button-file">
-					<Input 
-					accept="image/*" 
-					id="contained-button-file"
-					multiple 
-					type="file" 
-					onChange={onFileChange}
-					/>
-					<Button disabled={loading} variant="contained" component="span">
-					change product image
-					</Button>
-				</label>
-				</Stack>
-				<Button 
-					sx={{ 
-						p: styles["btn-padding"], 
-						fontSize: styles["fs-primary"], 
-						m: '8px 0' }} 
-					type="submit"
-					variant="contained"
-					disabled={loading}
-				>Update Product</Button>
-				</Box>
-			</Paper>)}
-		</Box>
-	);
+	return { 
+		attachment, 
+		error, 
+		loading,
+		product, 
+		productName, 
+		productPrice, 
+		productStocks, 
+		onChange,
+		onFileChange,
+		onSubmit,
+	}
 }
  
-export default Edit;
+export default Logic;

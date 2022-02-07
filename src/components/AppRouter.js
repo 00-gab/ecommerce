@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import AddModerator from "../routes/AddModerator";
-import Dashboard from "../routes/Dashboard";
-import Edit from "../routes/Edit";
-import LandingPage from "../routes/LandingPage";
-import Login from "../routes/Login";
+import AddModerator from "../routes/AddModerator/AddModerator";
+import Dashboard from "../routes/Dashboard/Dashboard";
+import Edit from "../routes/EditProduct/Edit";
+import LandingPage from "../routes/Main/LandingPage";
+import Login from "../routes/Auth/Login";
 import Orders from "../routes/Orders"
 import ProductView from "../routes/ProductView";
 import ProductsList from "../routes/ProductsList";
@@ -12,7 +12,7 @@ import Transactions from "../routes/Transactions"
 
 import AppContainer from "./AppContainer";
 
-const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerToggle}) => {
+const AppRouter = ({ authService, isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerToggle}) => {
 	return (
 		<Router>
 			<Switch>

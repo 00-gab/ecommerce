@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
-import { 
-	Typography,
-	Container,
-	Grid,
-} from "@mui/material";
+import { db } from "../../firebase";
 
-import Products from "../components/Products";
-
-const Dashboard = () => {
+const useFetchProduct = () => {
 	const [products, setProducts] = useState([]);
 
 	useEffect(() => {
@@ -24,16 +17,7 @@ const Dashboard = () => {
 		return unsub;
 	}, [])
 
-	return (
-		<>
-		<Typography variant="h3" sx={{ p: 1 }}>Products Grid</Typography>
-		<Container maxWidth="lg" sx={{ p: (1, 0, 5) }}>
-			<Grid container spacing={4}>
-				<Products products={products} />
-			</Grid>
-		</Container>
-		</>
-	);
+	return products;
 }
  
-export default Dashboard;
+export default useFetchProduct;

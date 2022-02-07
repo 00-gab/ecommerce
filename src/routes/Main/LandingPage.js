@@ -1,6 +1,3 @@
-import { authService } from "../firebase";
-import { signOut } from "firebase/auth";
-import { useHistory } from "react-router-dom";
 import {
 	Box,
 	Button,
@@ -117,7 +114,6 @@ const styles = {
 
 
 const LandingPage = () => {
-	const history = useHistory();
 	const stars = [1, 2, 3, 4, 5];
 	const products = [
 		{
@@ -145,11 +141,6 @@ const LandingPage = () => {
 			review: '93',
 		},
 	]
-
-	const onLogOutClick = () => {
-		signOut(authService);
-		history.push("/");
-	}
 
 	return (
 		<Box component="div" sx={styles.mainContainer}>

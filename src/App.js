@@ -49,6 +49,7 @@ function App() {
       drawerWidth={drawerWidth}
       mobileOpen={mobileOpen}
       handleDrawerToggle={handleDrawerToggle}
+      authService={authService}
       /> 
       :
       <LinearProgress />
