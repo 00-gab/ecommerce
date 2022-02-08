@@ -6,10 +6,9 @@ import Edit from "../routes/EditProduct/Edit";
 import LandingPage from "../routes/Main/LandingPage";
 import Login from "../routes/Auth/Login";
 import Orders from "../routes/Orders"
-import ProductView from "../routes/ProductView";
+import ProductView from "../routes/ProductView/ProductView";
 import ProductsList from "../routes/ProductsList/ProductsList";
 import Transactions from "../routes/Transactions"
-
 import AppContainer from "./AppContainer";
 
 const AppRouter = ({ authService, isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerToggle}) => {
