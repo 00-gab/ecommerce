@@ -3,62 +3,51 @@ import {
 	Typography,
 	Button,
 	Box,
-	Card,
 	CardContent,
-	CardMedia,
 	Divider,
-	Grid,
+	Paper,
+	IconButton
 } from "@mui/material";
 import styles from "./styles";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
 
 
-const Products = ({ products }) => {
+const Products = ({ products, onClickAddToFavorite }) => {
 	return (
 		<>
 		{products.map(product => (
-			<Grid item key={product.id} xs={12} sm={12} md={6} lg={4}>
-				<Card sx={styles.productContainer}>
-					<CardMedia
-					component="img" 
-					image={product.attachmentUrl}
-					title={product.name}
-					height="50%"
-					width="auto"
-					// sx={{ width: 'auto', height: '100%'}}
-					/>
+			<Paper elevation={2} key={product.id}>
+				<Box component="div" sx={styles.productContainer}>
+					<Box component="div" sx={styles.head}>
+						<Typography variant="h6">{product.name}</Typography>
+						<IconButton 
+							aria-label="fave" 
+							edge="end"
+							onClick={() => onClickAddToFavorite(product.id, product.favorite)}
+						>
+						{product.favorite ? <StarIcon /> : <StarBorderIcon />}
+						</IconButton>
+					</Box>
 					<Divider />
-					<CardContent sx={styles.productContent}>
-						<Typography variant="h5" gutterBottom>
-							{product.name}
-						</Typography>
-						<Typography variant="h6">
+					<Box component="img" src={product.attachmentUrl} sx={styles.imgStyle} />
+					<Box sx={styles.productDetails}>
+						<Typography variant="h6" align="center">
 							{product.price}
 						</Typography>
-						<Typography variant="subtitle1">stocks: {product.stocks}</Typography>
-					</CardContent>
+						<Typography variant="subtitle1" align="center">stocks: {product.stocks}</Typography>
+					</Box>
 					<Divider />
-					<Box
-					component="div"
-					sx={styles.btnGroup}
-					>
-						<Button
-						component="a"
-						href={`/products/view/${product.id}`}
-						// sx={styles.spacing} 
-						variant="contained"
-						>
+					<Box component="div" sx={styles.btnGroup}>
+						<Button component="a" href={`/products/view/${product.id}`} variant="contained">
 						View Product
 						</Button>
-						<Button 
-						component="a"
-						href={`edit/${product.id}`}
-						variant="outlined"
-						>
+						<Button component="a" href={`edit/${product.id}`} variant="outlined">
 						Edit Product
 						</Button>
 					</Box>
-				</Card>
-			</Grid>
+				</Box>
+			</Paper>
 		))}
 		</>
 	);

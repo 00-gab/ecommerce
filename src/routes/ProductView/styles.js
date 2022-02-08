@@ -38,6 +38,10 @@ const styles = {
 		minHeight: "650px", 
 		p: '2.5em',
 	},
+	ratings: {
+		mb: '8px',
+		color: '#515C67'
+	},
 	split: {
 		display: 'flex',
 		flexDirection: 'column',

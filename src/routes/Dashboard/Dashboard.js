@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebase";
+import React from "react";
 import { 
-	Typography,
+	Box,
 	Container,
-	Grid,
+	Typography,
 } from "@mui/material";
 
-import useFetchProducts from "./useFetchProducts";
+import Logic from "./Logic";
 import Products from "./Products";
+import styles from "./styles";
 
 const Dashboard = () => {
-	const products = useFetchProducts();
+	const { products, onClickAddToFavorite } = Logic();
 
 	return (
 		<>
 		<Typography variant="h3" sx={{ p: 1 }}>Products Grid</Typography>
 		<Container maxWidth="lg" sx={{ p: (1, 0, 5) }}>
-			<Grid container spacing={4}>
-				<Products products={products} />
-			</Grid>
+			<Box component="div" sx={styles.mainContainer}>
+				<Products products={products} onClickAddToFavorite={onClickAddToFavorite} />
+			</Box>
 		</Container>
 		</>
 	);
