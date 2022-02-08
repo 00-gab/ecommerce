@@ -35,12 +35,11 @@ const Logic = () => {
 				}
 			} else {
 				const ok = await signInWithEmailAndPassword(authService, email, password);
-				if (ok) {
-					history.push("/");
-				}
+				if (ok) history.push("/");
 			}
 		} catch (error) {
 			setError(error.message);
+			setLoading(false)
 		}
 	}
 
