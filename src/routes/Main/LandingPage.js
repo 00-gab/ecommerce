@@ -1,8 +1,6 @@
 import {
 	Box,
 	Button,
-	Divider,
-	Grid,
 	Paper,
 	Typography,
 	Stack,  

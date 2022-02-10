@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import AddModerator from "../routes/AddModerator/AddModerator";
 import Dashboard from "../routes/Dashboard/Dashboard";
 import Edit from "../routes/EditProduct/Edit";
+import KapeYuqi from "../routes/Shop/KapeYuqi";
 import LandingPage from "../routes/Main/LandingPage";
 import Login from "../routes/Auth/Login";
 import Orders from "../routes/Orders"
@@ -11,7 +12,7 @@ import ProductsList from "../routes/ProductsList/ProductsList";
 import Transactions from "../routes/Transactions"
 import AppContainer from "./AppContainer";
 
-const AppRouter = ({ authService, isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerToggle}) => {
+const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerToggle}) => {
 	return (
 		<Router>
 			<Switch>
@@ -82,6 +83,13 @@ const AppRouter = ({ authService, isLoggedIn, userObj, drawerWidth, mobileOpen, 
 							handleDrawerToggle={handleDrawerToggle} 
 							mobileOpen={mobileOpen} 
 							/>
+						</Route>
+					</>
+				)}
+				{(userObj && userObj[0].role === 'user') && (
+					<>
+						<Route exact path="/">
+							<KapeYuqi />
 						</Route>
 					</>
 				)}
