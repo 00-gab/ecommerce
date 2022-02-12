@@ -54,12 +54,13 @@ const styles = {
 		flexDirection: 'column',
 		gap: 3,
 	},
-	productContainer: {
+	productsContainer: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: '100%',
-		flexWrap: 'wrap'
+		flexWrap: 'wrap',
+		gap: '1.5rem'
 	},
 	productStyles: {
 		display: 'flex',
@@ -67,6 +68,15 @@ const styles = {
 		height: 'auto',
 		maxWidth: 345,
 		padding: '1rem',
+		gap: '1rem'
+	},
+	productContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		gap: '2rem'
+	},
+	productHeading: {
+		mb: '1rem'
 	},
 	productImageContainer: {
 		width: '250px',

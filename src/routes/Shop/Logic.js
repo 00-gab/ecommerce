@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { collection, query, onSnapshot, where } from "firebase/firestore";
-import { db } from "../../firebase";
+import { signOut } from "firebase/auth";
+import { db, authService } from "../../firebase";
 
 const Logic = () => {
 	const [anchorAccount, setAnchorAccount] = useState(null);
@@ -13,6 +14,10 @@ const Logic = () => {
 		getProducts();
 		getFavorites();
 	}, []);
+
+	const onLogOutClick = () => {
+		signOut(authService);
+	}
 
 	const getProducts = async () => {
 		const collectionRef = collection(db, "products");
@@ -70,6 +75,7 @@ const Logic = () => {
 		handleCloseCategory,
 		handleMenuAccount,
 		handleMenuCategory,
+		onLogOutClick,
 		toggleCategory
 	}
 }

@@ -45,12 +45,14 @@ const LandingPage = () => {
 				<Box component="img" src="/assets/coffee3.jpg" sx={styles.imgStyles} />
 			</Box>
 			<Box sx={styles.productSection}>
-				<Typography variant="h4" align="center">OUR BEST SELLERS</Typography>
-				<Typography variant="overline" display="block" align="center" gutterBottom>experience the unique taste of our coffee</Typography>
-				<Box sx={styles.productContainer}>
+				<Box sx={styles.productHeading}>
+					<Typography variant="h4" align="center">OUR BEST SELLERS</Typography>
+					<Typography variant="overline" display="block" align="center" gutterBottom>experience the unique taste of our coffee</Typography>
+				</Box>
+				<Box sx={styles.productsContainer}>
 					{favorites.map(favorite => (
-						<Box key={favorite.id} sx={styles.productStyles}>
-							<Paper elevation={0}>
+						<Box key={favorite.id} sx={styles.productContainer}>
+							<Paper elevation={1} sx={styles.productStyles}>
 								<Box component="div" sx={styles.productImageContainer}>
 									<Box 
 										component="img"

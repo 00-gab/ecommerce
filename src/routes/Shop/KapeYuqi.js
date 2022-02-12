@@ -16,6 +16,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Logic from "./Logic";
 import styles from "./styles";
 
+
+
 const KapeYuqi = () => {
 	const {
 		anchorAccount,
@@ -27,6 +29,7 @@ const KapeYuqi = () => {
 		handleCloseCategory,
 		handleMenuAccount,
 		handleMenuCategory,
+		onLogOutClick,
 		toggleCategory
 	} = Logic();
 
@@ -67,7 +70,7 @@ const KapeYuqi = () => {
 				>
 					<MenuItem onClick={handleCloseAccount}>My account</MenuItem>
 					<MenuItem onClick={handleCloseAccount}>My Purchases</MenuItem>
-					<MenuItem onClick={handleCloseAccount}>Logout</MenuItem>
+					<MenuItem onClick={onLogOutClick}>Logout</MenuItem>
 				</Menu>
 				</Box>
 			</Toolbar>
