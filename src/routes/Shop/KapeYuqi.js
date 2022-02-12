@@ -1,86 +1,36 @@
 import React from "react";
 import {
-	AppBar,
 	Box,
-	Toolbar,
 	Typography,
 	Button,
-	IconButton,
 	Menu,
 	MenuItem, 
 } from "@mui/material"
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ShopNav from "../../components/ShopNav/ShopNav";
 
 import Logic from "./Logic";
 import styles from "./styles";
 
-
+import AllProducts from "./AllProducts";
+import Favorites from "./Favorites";
 
 const KapeYuqi = () => {
 	const {
-		anchorAccount,
 		anchorCategory,
 		category,
-		favorites,
-		products,
-		handleCloseAccount,
 		handleCloseCategory,
-		handleMenuAccount,
 		handleMenuCategory,
-		onLogOutClick,
 		toggleCategory
 	} = Logic();
 
 	return (
 		<Box sx={styles.mainContainer}>
-		<Box sx={styles.body}>
-			<AppBar position="static" sx={styles.nav}>
-			<Toolbar>
-				<Box component="div" sx={styles.brand}>
-						<Typography variant="h6" sx={{letterSpacing: '2px'}}>KAPE</Typography>
-						<Typography variant="h6" sx={{letterSpacing: '3px'}}>YUQI</Typography>
-				</Box>
-				<Box component="div">
-				<IconButton
-					size="large"
-					aria-label="account of current user"
-					aria-controls="menu-account"
-					aria-haspopup="true"
-					onClick={handleMenuAccount}
-					color="inherit"
-              	>
-                	<AccountCircle />
-              	</IconButton>
-				<Menu
-					id="menu-account"
-					anchorEl={anchorAccount}
-					anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'right',
-					}}
-					keepMounted
-					transformOrigin={{
-					vertical: 'top',
-					horizontal: 'right',
-					}}
-					open={Boolean(anchorAccount)}
-					onClose={handleCloseAccount}
-				>
-					<MenuItem onClick={handleCloseAccount}>My account</MenuItem>
-					<MenuItem onClick={handleCloseAccount}>My Purchases</MenuItem>
-					<MenuItem onClick={onLogOutClick}>Logout</MenuItem>
-				</Menu>
-				</Box>
-			</Toolbar>
-			</AppBar>
-	  	</Box>
+		<ShopNav />
 		<Box component="main" sx={styles.main}>
 			<Box sx={styles.spacing}>
 				<Typography variant="h2" align="center">Our Coffee</Typography>
 			</Box>
-			{/** start of products grid */}
 			<Box component="div" sx={styles.productsGrid}>
 					<Button
 						aria-label="category of products"
@@ -111,37 +61,8 @@ const KapeYuqi = () => {
 					<MenuItem onClick={toggleCategory} id="favorites">Favorites</MenuItem>
 				</Menu>
 				<Box component="div" sx={styles.products}>
-				{(category === "all products") ? 
-				products.map(product => (
-						<Box component="div" key={product.id} sx={styles.product}>
-							<Box component="div" sx={styles.imgStyles}>
-								<Box component="img" src={product.attachmentUrl} height="100%" />
-							</Box>
-							<Box component="div" className="details">
-								<Typography variant="h6" align="center">{product.name}</Typography>
-								<Typography variant="h5" align="center">{product.price}</Typography>
-							</Box>
-							<Button variant="contained" sx={styles.addBtn} endIcon={<AddShoppingCartIcon />}>
-							Add to Cart
-							</Button>
-						</Box>
-				))
-				: (
-				favorites.map(favorite => (
-					<Box component="div" key={favorite.id} sx={styles.product}>
-						<Box component="div" sx={styles.imgStyles}>
-							<Box component="img" src={favorite.attachmentUrl} height="100%" />
-						</Box>
-						<Box component="div" className="details">
-							<Typography variant="h6" align="center">{favorite.name}</Typography>
-							<Typography variant="h5" align="center">{favorite.price}</Typography>
-						</Box>
-						<Button variant="contained" sx={styles.addBtn} endIcon={<AddShoppingCartIcon />}>
-						Add to Cart
-						</Button>
-					</Box>
-				))
-				)}
+					{(category === "all products") && <AllProducts />}
+					{(category === "favorites") && <Favorites />}
 				</Box>
 			</Box>
 		</Box>

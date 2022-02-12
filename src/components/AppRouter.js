@@ -9,6 +9,7 @@ import Login from "../routes/Auth/Login";
 import Orders from "../routes/Orders"
 import ProductView from "../routes/ProductView/ProductView";
 import ProductsList from "../routes/ProductsList/ProductsList";
+import Profile from "../routes/Profile/Profile";
 import Transactions from "../routes/Transactions"
 import AppContainer from "./AppContainer";
 
@@ -90,6 +91,9 @@ const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerT
 					<>
 						<Route exact path="/">
 							<KapeYuqi />
+						</Route>
+						<Route exact path="/profile">
+							<Profile />
 						</Route>
 					</>
 				)}
