@@ -1,6 +1,7 @@
 const styles = {
 	body: {
-		flexGrow: 1
+		flexGrow: 1,
+		boxShadow: 3,
 	},
 	nav: {
 		background: '#1E1D1F', 

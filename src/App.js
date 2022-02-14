@@ -15,7 +15,7 @@ function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userObj, setUserObj] = useState("");
 	const drawerWidth = 240;
-  // console.log(userObj);
+  
 
   const handleDrawerToggle = () => {
 	  setMobileOpen(!mobileOpen);

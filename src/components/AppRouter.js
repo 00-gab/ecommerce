@@ -93,7 +93,7 @@ const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerT
 							<KapeYuqi />
 						</Route>
 						<Route exact path="/profile">
-							<Profile />
+							<Profile userObj={userObj} />
 						</Route>
 					</>
 				)}

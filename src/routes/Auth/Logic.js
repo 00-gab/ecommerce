@@ -23,11 +23,12 @@ const Logic = () => {
 		setLoading(true);
 		try {
 			if (newAccount) {
-				const ok = await createUserWithEmailAndPassword(authService, email, password);
-				if (ok) {
+				const userCredential = await createUserWithEmailAndPassword(authService, email, password);
+				if (userCredential) {
 					let data = {
 						email,
 						role: 'user',
+						uid: userCredential.user.uid,
 					}
 					const collectionRef = collection(db, "users");
 					await addDoc(collectionRef, data);
