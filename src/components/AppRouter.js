@@ -13,6 +13,9 @@ import Profile from "../routes/Profile/Profile";
 import Transactions from "../routes/Transactions"
 import AppContainer from "./AppContainer";
 
+import ShopNav from "./ShopNav/ShopNav";
+import Footer from "./Footer/Footer";
+
 const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerToggle}) => {
 	return (
 		<Router>
@@ -93,7 +96,9 @@ const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerT
 							<KapeYuqi />
 						</Route>
 						<Route exact path="/profile">
-							<Profile userObj={userObj} />
+							<ShopNav />
+								<Profile userObj={userObj} />
+							<Footer />
 						</Route>
 					</>
 				)}

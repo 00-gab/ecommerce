@@ -34,6 +34,23 @@ const styles = {
 		justifyContent: 'center', 
 		gap: '2rem', 
 		p: '0 4em',
+		// height: '20em',
+	},
+	orderContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		gap: '2rem',
+	},
+	orderItem: {
+		display: 'flex',
+		flexDirection: {xs: 'column', sm: 'row-reverse'},
+		justifyContent: {sm: 'space-between'},
+		alignItems: 'center',
+		width: '100%',
+		p: '1em',
+		gap: '1em',
+		outline: '1px solid #BCBCBC',
+		borderRadius: '3px'
 	},
 }
 
