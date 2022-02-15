@@ -5,9 +5,10 @@ const styles = {
 		justifyContent: 'center', 
 		alignItems: 'center', 
 		gap: '3em',
+		minHeight: '60vh'
 	},
 	spacing: {
-		pt: '3em',
+		pt: '3rem',
 	},
 	productsGrid: {
 		display: 'flex', 

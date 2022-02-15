@@ -26,7 +26,6 @@ const KapeYuqi = () => {
 
 	return (
 		<Box sx={styles.mainContainer}>
-		<ShopNav />
 		<Box component="main" sx={styles.main}>
 			<Box sx={styles.spacing}>
 				<Typography variant="h2" align="center">Our Coffee</Typography>

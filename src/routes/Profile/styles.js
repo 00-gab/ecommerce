@@ -39,7 +39,7 @@ const styles = {
 	orderContainer: {
 		display: 'flex',
 		flexDirection: 'column',
-		gap: '2rem',
+		gap: '1rem',
 	},
 	orderItem: {
 		display: 'flex',
@@ -48,9 +48,33 @@ const styles = {
 		alignItems: 'center',
 		width: '100%',
 		p: '1em',
-		gap: '1em',
+		gap: '1rem',
 		outline: '1px solid #BCBCBC',
 		borderRadius: '3px'
+	},
+	addressDetails: {
+		display: 'flex', 
+		flexDirection: 'column',
+		outline: '1px solid #BCBCBC', 
+		p: '1rem', 
+	},
+	fontStyles: {
+		fontSize: '1rem', 
+		lineHeight: '1.5',
+	},
+	addressBookContainer: {
+		display: 'flex', 
+		flexDirection: { xs: 'column', sm: 'row' }, 
+		flexWrap: { sm: 'wrap' },
+		gap: '1rem',
+		mb: '1rem'
+	},
+	addressForm: {
+		display: 'flex', 
+		flexDirection: 'column', 
+		gap: '0.7rem', 
+		width: { md: '50%', sm: '50%' },
+		alignSelf: 'center'
 	},
 }
 

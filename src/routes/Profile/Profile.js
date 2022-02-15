@@ -3,6 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { StyledTab, StyledTabs } from "./customStyles";
 import { TabPanel, a11yProps } from './TabPanel';
 import Account from './Account';
+import AddressBook from './AddressBook';
 import CssTextField from './CssTextField';
 import Logic from './Logic'
 import Orders from './Orders';
@@ -88,7 +89,7 @@ const Profile = () => {
 						<Orders orders={orders} />
 					</TabPanel>
 					<TabPanel value={value} index={3}>
-						Address Book
+						<AddressBook />
 					</TabPanel>
 					<TabPanel value={value} index={4}>
 						Wishlist

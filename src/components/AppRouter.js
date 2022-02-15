@@ -93,7 +93,9 @@ const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerT
 				{(userObj && userObj[0].role === 'user') && (
 					<>
 						<Route exact path="/">
-							<KapeYuqi />
+							<ShopNav />
+								<KapeYuqi />
+							<Footer />
 						</Route>
 						<Route exact path="/profile">
 							<ShopNav />
