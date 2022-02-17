@@ -3,51 +3,63 @@ import { Box, Button, Typography } from "@mui/material";
 import { StyledTab, StyledTabs } from "./customStyles";
 import { TabPanel, a11yProps } from './TabPanel';
 import Account from './Account';
-import AddressBook from './AddressBook';
+import AddressBook from './Address/AddressBook';
 import CssTextField from './CssTextField';
 import Logic from './Logic'
 import Orders from './Orders';
 import styles from "./styles";
 
-const Profile = () => {
+const Profile = ({ userObj }) => {
 	const {
 		edit, 
+		loading,
 		orders,
 		value,
+		username,
+		onChangeUsername,
 		onClickCancel,
 		onClickEdit,
 		handleChange,
-	} = Logic();
+		onSubmitUsername,
+	} = Logic(userObj);
 
 	return (
 		<Box sx={{ minHeight: '100vh' }}>
 			<Box className='header' sx={styles.header}>
 				<Box className='split' sx={styles.split}>
 					{edit ? 
-						<>
-						<CssTextField label="Enter Username" id="custom-css-outlined-input" sx={styles.editInput} />
-						<Box sx={{ display: 'flex', gap: '1em' }}>
-							<Button 
-								variant='outlined' 
-								color='inherit' 
-								onClick={onClickCancel}
-								sx={styles.editBtn}
-							>
-							Update
-							</Button>
-							<Button 
-								variant='outlined' 
-								color='inherit' 
-								onClick={onClickCancel}
-								sx={styles.editBtn}
-							>
-							Cancel
-							</Button>
+						<Box component="form" onSubmit={onSubmitUsername} sx={styles.split}>
+							<CssTextField 
+								value={username}
+								onChange={onChangeUsername}
+								label="Enter Username" 
+								id="custom-textfield" 
+								sx={styles.editInput}
+							/>
+							<Box sx={{ display: 'flex', gap: '1em' }}>
+								<Button 
+									loading={loading}
+									type='submit'
+									variant='outlined' 
+									color='inherit' 
+									sx={styles.editBtn}
+								>
+								Update
+								</Button>
+								<Button
+									loading={loading}			
+									variant='outlined' 
+									color='inherit' 
+									onClick={onClickCancel}
+									sx={styles.editBtn}
+								>
+								Cancel
+								</Button>
+							</Box>
 						</Box>
-						</>
 						:
 						<>
-						<Typography variant="h2" align="center">Song Yuqi</Typography>
+						<Typography variant="h2" align="center">{username}</Typography>
 						<Box>
 							<Button 
 								variant='outlined' 
@@ -89,7 +101,7 @@ const Profile = () => {
 						<Orders orders={orders} />
 					</TabPanel>
 					<TabPanel value={value} index={3}>
-						<AddressBook />
+						<AddressBook userObj={userObj} />
 					</TabPanel>
 					<TabPanel value={value} index={4}>
 						Wishlist

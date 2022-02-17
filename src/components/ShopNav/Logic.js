@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { authService } from "../../firebase";
+import { useHistory } from "react-router-dom";
 
 const Logic = () => {
 	const [anchorAccount, setAnchorAccount] = useState(null);
+	const history = useHistory();
 
 	const onLogOutClick = () => {
 		signOut(authService);
+		history.push("/");
 	}
 
 	const handleMenuAccount = (event) => {
