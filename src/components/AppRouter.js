@@ -16,7 +16,7 @@ import AppContainer from "./AppContainer";
 import ShopNav from "./ShopNav/ShopNav";
 import Footer from "./Footer/Footer";
 
-const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerToggle}) => {
+const AppRouter = ({ authService, isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerToggle}) => {
 	return (
 		<Router>
 			<Switch>
@@ -30,7 +30,7 @@ const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerT
 						</Route>
 					</>
 				)}
-				{(userObj && userObj[0].role === 'admin') && (
+				{(userObj && userObj.role === 'admin') && (
 					<>
 						<Route exact path="/">
 							<AppContainer 
@@ -90,7 +90,7 @@ const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerT
 						</Route>
 					</>
 				)}
-				{(userObj && userObj[0].role === 'user') && (
+				{(userObj && userObj.role === 'user') && (
 					<>
 						<Route exact path="/">
 							<ShopNav />
@@ -99,7 +99,7 @@ const AppRouter = ({ isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerT
 						</Route>
 						<Route exact path="/profile">
 							<ShopNav />
-								<Profile userObj={userObj} />
+								<Profile userObj={userObj} authService={authService} />
 							<Footer />
 						</Route>
 					</>

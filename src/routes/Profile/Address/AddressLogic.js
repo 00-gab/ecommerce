@@ -1,5 +1,15 @@
 import { useState, useEffect } from 'react';
-import { collection, doc, getDoc, addDoc, updateDoc, query, where, onSnapshot } from "firebase/firestore";
+import { 
+	collection, 
+	doc, 
+	getDoc, 
+	addDoc, 
+	updateDoc, 
+	query, 
+	where,
+	onSnapshot,
+	deleteDoc,
+} from "firebase/firestore";
 import { db } from "../../../firebase";
 
 
@@ -140,6 +150,11 @@ const AddressLogic = (uid) => {
 		}
 	}
 
+	const onClickDeleteAddress = async (id) => {
+		const docRef = doc(db, "addresses", id);
+		await deleteDoc(docRef);
+	}
+
 	return {
 		addForm,
 		addresses,
@@ -150,6 +165,7 @@ const AddressLogic = (uid) => {
 		onChangeForm,
 		onClickAddForm,
 		onClickCancel,
+		onClickDeleteAddress,
 		onClickEditForm,
 		onSubmitAddForm,
 		onChangeEdit,

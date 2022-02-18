@@ -13,7 +13,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [init, setInit] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [userObj, setUserObj] = useState("");
+  const [userObj, setUserObj] = useState(null);
 	const drawerWidth = 240;
   
 
@@ -27,7 +27,7 @@ function App() {
         const collectionRef = collection(db, "users");
         const q = query(collectionRef, where("email", "==", user.email));
         onSnapshot(q, (snapshot) => 
-          setUserObj(snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
+          setUserObj({...snapshot.docs[0].data(), id: snapshot.docs[0].id})
         )
         setIsLoggedIn(true);
       } else {

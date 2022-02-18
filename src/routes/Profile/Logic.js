@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { doc, getDoc, addDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
+import { updateProfile } from 'firebase/auth';
 import { db } from "../../firebase";
 
-const Logic = (userObj) => {
+const Logic = (userDocId, auth) => {
 	const [loading, setLoading] = useState(false);
 	const [edit, setEdit] = useState(false);
 	const [value, setValue] = useState(0);
-	const [username, setUsername] = useState(userObj[0].username || userObj[0].email);
+	const [username, setUsername] = useState(auth.displayName || auth.email);
 
 	const onClickEdit = () => setEdit(prev => !prev);
 	const onClickCancel = () => setEdit(false);
@@ -23,15 +24,14 @@ const Logic = (userObj) => {
 		event.preventDefault();
 		setLoading(true);
 		try {
-			const docRef = doc(db, "users", userObj[0].id);
-			await updateDoc(docRef, { username });
+			const docRef = doc(db, "users", userDocId);
+			await updateDoc(docRef, { displayName: username });
+			await updateProfile(auth, { displayName: username });
 			setLoading(false);
 			setEdit(false);
 		} catch (error) {
-			if (error) {
-				console.log(error);
-				setLoading(false);
-			}
+			console.log(error);
+			setLoading(false);
 		}
 	}
 

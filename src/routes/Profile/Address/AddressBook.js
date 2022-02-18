@@ -8,6 +8,7 @@ import styles from '../styles';
 
 const AddressBook = ({ userObj }) => {
 	const {
+		addresses,
 		addForm,
 		editForm,
 		firstName,
@@ -23,11 +24,12 @@ const AddressBook = ({ userObj }) => {
 		onChangeForm,
 		onClickAddForm,
 		onClickCancel,
+		onClickDeleteAddress,
 		onClickEditForm,
 		onSubmitAddForm,
 		onChangeEdit,
 		onSubmitEditForm,
-	} = AddressLogic(userObj[0].uid);
+	} = AddressLogic(userObj.uid);
 
 	return (
 		<Box>
@@ -59,8 +61,9 @@ const AddressBook = ({ userObj }) => {
 				}
 				{(!editForm && !addForm) &&  
 					<AddressItems 
-						onClickEditForm={onClickEditForm} 
-						userObj={userObj} 
+						onClickEditForm={onClickEditForm}
+						onClickDeleteAddress={onClickDeleteAddress}
+						addresses={addresses}
 					/>
 				}
 			</Box>

@@ -9,7 +9,7 @@ import Logic from './Logic'
 import Orders from './Orders';
 import styles from "./styles";
 
-const Profile = ({ userObj }) => {
+const Profile = ({ userObj, authService }) => {
 	const {
 		edit, 
 		loading,
@@ -21,7 +21,7 @@ const Profile = ({ userObj }) => {
 		onClickEdit,
 		handleChange,
 		onSubmitUsername,
-	} = Logic(userObj);
+	} = Logic(userObj.id, authService.currentUser);
 
 	return (
 		<Box sx={{ minHeight: '100vh' }}>
@@ -38,7 +38,7 @@ const Profile = ({ userObj }) => {
 							/>
 							<Box sx={{ display: 'flex', gap: '1em' }}>
 								<Button 
-									loading={loading}
+									disabled={loading}
 									type='submit'
 									variant='outlined' 
 									color='inherit' 
@@ -47,7 +47,7 @@ const Profile = ({ userObj }) => {
 								Update
 								</Button>
 								<Button
-									loading={loading}			
+									disabled={loading}			
 									variant='outlined' 
 									color='inherit' 
 									onClick={onClickCancel}

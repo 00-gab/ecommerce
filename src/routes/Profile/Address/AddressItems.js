@@ -4,12 +4,9 @@ import {
 	Button,
 	Typography,
 } from '@mui/material';
-import AddressLogic from './AddressLogic';
 import styles from '../styles'
 
-const AddressItems = ({ onClickEditForm, userObj }) => {
-	const { addresses } = AddressLogic(userObj[0].uid);
-
+const AddressItems = ({ addresses, onClickEditForm, onClickDeleteAddress }) => {
 	return (		
 		<>
 			{addresses.map(address => (
@@ -21,7 +18,10 @@ const AddressItems = ({ onClickEditForm, userObj }) => {
 					<Typography sx={styles.fontStyles} variant='overline'>{address.country}</Typography>
 					<Typography sx={styles.fontStyles} variant='overline'>{address.zipCode}</Typography>
 					<Typography sx={styles.fontStyles} variant='overline' gutterBottom>{address.phoneNo}</Typography>
-					<Button onClick={() => onClickEditForm(address.id)} variant='outlined'>Edit</Button>
+					<Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+						<Button onClick={() => onClickEditForm(address.id)} variant='outlined'>Edit</Button>
+						<Button onClick={() => onClickDeleteAddress(address.id)} variant='outlined' color='error'>Delete</Button>
+					</Box>
 				</Box>
 			))}
 		</>	
