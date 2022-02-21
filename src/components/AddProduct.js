@@ -68,6 +68,7 @@ const AddProduct = ({ setModalOpen }) => {
 			name: productName,
 			price: productPrice,
 			stocks: productStocks,
+			favorite: false,
 			attachmentUrl,
 		};
 		const collectionRef = collection(db, "products");

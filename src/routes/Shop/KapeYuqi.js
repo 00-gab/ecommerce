@@ -5,6 +5,7 @@ import {
 	Button,
 	Menu,
 	MenuItem, 
+	Snackbar,
 } from "@mui/material"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ShopNav from "../../components/ShopNav/ShopNav";
@@ -15,14 +16,19 @@ import styles from "./styles";
 import AllProducts from "./AllProducts";
 import Favorites from "./Favorites";
 
-const KapeYuqi = () => {
+const KapeYuqi = ({ userObj }) => {
 	const {
 		anchorCategory,
 		category,
+		favorites,
+		open,
+		products,
+		addToCart,
+		handleClose,
 		handleCloseCategory,
 		handleMenuCategory,
 		toggleCategory
-	} = Logic();
+	} = Logic(userObj.uid);
 
 	return (
 		<Box sx={styles.mainContainer}>
@@ -60,11 +66,19 @@ const KapeYuqi = () => {
 					<MenuItem onClick={toggleCategory} id="favorites">Favorites</MenuItem>
 				</Menu>
 				<Box component="div" sx={styles.products}>
-					{(category === "all products") && <AllProducts />}
-					{(category === "favorites") && <Favorites />}
+					{(category === "all products") 
+					&& <AllProducts addToCart={addToCart} products={products} />}
+					{(category === "favorites") 
+					&& <Favorites addToCart={addToCart} favorites={favorites} />}
 				</Box>
 			</Box>
 		</Box>
+			<Snackbar 
+				open={open}
+				onClose={handleClose}
+				autoHideDuration={3000}
+				message="Item added"
+			/>
 		</Box>
 	);
 }

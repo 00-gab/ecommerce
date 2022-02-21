@@ -68,7 +68,7 @@ const LandingPage = () => {
 										{stars.map(star => (<StarIcon key={star} />))}
 										<Typography color="inherit" align="center" sx={{ fontSize: '1.125rem' }}>{`${Math.round(Math.random() * 100)} reviews`}</Typography>
 									</Box>
-									<Typography variant="h5" sx={{ fontSize: '1.125rem' }}>{favorite.price}</Typography>
+									<Typography variant="h5" sx={{ fontSize: '1.125rem' }}>${favorite.price}</Typography>
 								</Box>
 							</Paper>
 						</Box>

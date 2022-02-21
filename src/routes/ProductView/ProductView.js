@@ -44,7 +44,7 @@ const ProductView = () => {
 					<Box sx={styles.ratings}>
 						{stars.map(star => star === 5 ? <StarHalfIcon key={star} /> : <StarIcon key={star} />)}
 					</Box>
-					<Typography variant="h5" gutterBottom>Price: {product.price}</Typography>
+					<Typography variant="h5" gutterBottom>Price: ${product.price}</Typography>
 					<Typography variant="h5" gutterBottom>Stocks: {product.stocks}</Typography>
 				</Box>
 				<Divider />

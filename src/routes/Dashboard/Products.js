@@ -33,7 +33,7 @@ const Products = ({ products, onClickAddToFavorite }) => {
 					<Box component="img" src={product.attachmentUrl} sx={styles.imgStyle} />
 					<Box sx={styles.productDetails}>
 						<Typography variant="h6" align="center">
-							{product.price}
+							${product.price}
 						</Typography>
 						<Typography variant="subtitle1" align="center">stocks: {product.stocks}</Typography>
 					</Box>

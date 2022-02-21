@@ -94,7 +94,7 @@ const AppRouter = ({ authService, isLoggedIn, userObj, drawerWidth, mobileOpen, 
 					<>
 						<Route exact path="/">
 							<ShopNav />
-								<KapeYuqi />
+								<KapeYuqi userObj={userObj} />
 							<Footer />
 						</Route>
 						<Route exact path="/profile">

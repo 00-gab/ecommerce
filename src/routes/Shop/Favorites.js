@@ -1,10 +1,8 @@
-import Logic from "./Logic";
 import styles from "./styles";
 import { Box, Typography, Button } from "@mui/material"
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-const Favorites = () => {
-	const { favorites } = Logic();
+const Favorites = ({ addToCart, favorites }) => {
 	return (
 		favorites.map(favorite => (
 			<Box component="div" key={favorite.id} sx={styles.product}>
@@ -13,9 +11,14 @@ const Favorites = () => {
 				</Box>
 				<Box component="div" className="details">
 					<Typography variant="h6" align="center">{favorite.name}</Typography>
-					<Typography variant="h5" align="center">{favorite.price}</Typography>
+					<Typography variant="h5" align="center">${favorite.price}</Typography>
 				</Box>
-				<Button variant="contained" sx={styles.addBtn} endIcon={<AddShoppingCartIcon />}>
+				<Button 
+					variant="contained" 
+					sx={styles.addBtn} 
+					endIcon={<AddShoppingCartIcon />}
+					onClick={() => addToCart(favorite.id)}
+				>
 				Add to Cart
 				</Button>
 			</Box>

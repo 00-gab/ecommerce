@@ -1,17 +1,44 @@
 import { useState, useEffect } from "react";
-import { collection, query, onSnapshot, where } from "firebase/firestore";
+import { collection, query, onSnapshot, where, addDoc, getDocs, updateDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 
-const Logic = () => {
+const Logic = (uid) => {
 	const [anchorCategory, setAnchorCategory] = useState(null);
 	const [category, setCategory] = useState("all products");
 	const [products, setProducts] = useState([]);
 	const [favorites, setFavorites] = useState([]);
+	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
 		getProducts();
 		getFavorites();
 	}, []);
+
+	const addToCart = async (id) => {
+		const collectionRef = collection(db, "cart");
+		const q = query(collectionRef, where("productId", "==", id), where("uid", "==", uid));
+		const snapshot = await getDocs(q);
+		try {
+			if (snapshot.docs.length === 1) {
+				const quantity = snapshot.docs[0].data().quantity;
+				const docRef = doc(db, "cart", snapshot.docs[0].id);
+				await updateDoc(docRef, { quantity: quantity + 1  });
+				setOpen(true);
+			} else {
+				const data = {
+					productId: id,
+					quantity: 1,
+					uid,
+				}
+				const docRef = await addDoc(collectionRef, data);
+				if (docRef) setOpen(true);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	const handleClose = () => setOpen(false);
 
 	const getProducts = async () => {
 		const collectionRef = collection(db, "products");
@@ -55,7 +82,10 @@ const Logic = () => {
 		anchorCategory,
 		category,
 		favorites,
+		open,
 		products,
+		addToCart,
+		handleClose,
 		handleCloseCategory,
 		handleMenuCategory,
 		toggleCategory
