@@ -4,6 +4,7 @@ import { StyledTab, StyledTabs } from "./customStyles";
 import { TabPanel, a11yProps } from './TabPanel';
 import Account from './Account';
 import AddressBook from './Address/AddressBook';
+import Cart from './Cart/Cart';
 import CssTextField from './CssTextField';
 import Logic from './Logic'
 import Orders from './Orders';
@@ -11,6 +12,7 @@ import styles from "./styles";
 
 const Profile = ({ userObj, authService }) => {
 	const {
+		cartItems,
 		edit, 
 		loading,
 		orders,
@@ -92,7 +94,7 @@ const Profile = ({ userObj, authService }) => {
 						</StyledTabs>
 					</Box>
 					<TabPanel value={value} index={0}>
-						Cart
+						<Cart cartItems={cartItems} />
 					</TabPanel>
 					<TabPanel value={value} index={1}>
 						<Account />

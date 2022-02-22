@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { doc, updateDoc } from "firebase/firestore";
+import { useState, useEffect } from 'react';
+import { collection, query, onSnapshot, where, doc, getDoc, updateDoc } from "firebase/firestore";
 import { updateProfile } from 'firebase/auth';
 import { db } from "../../firebase";
 
@@ -8,6 +8,8 @@ const Logic = (userDocId, auth) => {
 	const [edit, setEdit] = useState(false);
 	const [value, setValue] = useState(0);
 	const [username, setUsername] = useState(auth.displayName || auth.email);
+	const [cartRef, setCartRef] = useState([]);
+	const [cartItems, setCartItems] = useState([]);
 
 	const onClickEdit = () => setEdit(prev => !prev);
 	const onClickCancel = () => setEdit(false);
@@ -35,6 +37,31 @@ const Logic = (userDocId, auth) => {
 		}
 	}
 
+	useEffect(() => {
+		const collectionRef = collection(db, "cart");
+		const q = query(collectionRef, where("uid", "==", auth.uid));
+		const unsub = onSnapshot(q, snapshot => {
+			setCartRef(snapshot.docs.map(doc => ({
+				...doc.data(),
+				id: doc.id,
+			})))
+		});
+		return unsub;
+	}, [auth.uid])
+
+	useEffect(() => {
+		if(cartRef) {
+			cartRef.forEach(async (item) => {
+				const docRef = doc(db, "products", item.productId);
+				const docSnap = await getDoc(docRef);
+				if (docSnap.exists()) {
+					console.log(docSnap.data());
+					setCartItems(prev => [...prev, {...docSnap.data(), quantity: item.quantity, id: item.id}])
+				}
+			});
+		}
+	}, [cartRef])
+
 	const orders = [
 		{
 			number: '245987',
@@ -57,6 +84,7 @@ const Logic = (userDocId, auth) => {
 	];
 
 	return {
+		cartItems,
 		edit, 
 		loading,
 		orders,
