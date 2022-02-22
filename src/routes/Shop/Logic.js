@@ -14,9 +14,9 @@ const Logic = (uid) => {
 		getFavorites();
 	}, []);
 
-	const addToCart = async (id) => {
+	const addToCart = async (obj) => {
 		const collectionRef = collection(db, "cart");
-		const q = query(collectionRef, where("productId", "==", id), where("uid", "==", uid));
+		const q = query(collectionRef, where("productId", "==", obj.id), where("uid", "==", uid));
 		const snapshot = await getDocs(q);
 		try {
 			if (snapshot.docs.length === 1) {
@@ -26,7 +26,8 @@ const Logic = (uid) => {
 				setOpen(true);
 			} else {
 				const data = {
-					productId: id,
+					...obj,
+					productId: obj.id,
 					quantity: 1,
 					uid,
 				}

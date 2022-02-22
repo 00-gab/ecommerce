@@ -17,7 +17,7 @@ const Favorites = ({ addToCart, favorites }) => {
 					variant="contained" 
 					sx={styles.addBtn} 
 					endIcon={<AddShoppingCartIcon />}
-					onClick={() => addToCart(favorite.id)}
+					onClick={() => addToCart(favorite)}
 				>
 				Add to Cart
 				</Button>

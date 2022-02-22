@@ -1,4 +1,3 @@
-import Logic from "./Logic";
 import styles from "./styles";
 import { Box, Typography, Button } from "@mui/material"
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -18,7 +17,7 @@ const AllProducts = ({ addToCart, products }) => {
 					variant="contained" 
 					sx={styles.addBtn} 
 					endIcon={<AddShoppingCartIcon />}
-					onClick={() => addToCart(product.id)}
+					onClick={() => addToCart(product)}
 				>
 				Add to Cart
 				</Button>
