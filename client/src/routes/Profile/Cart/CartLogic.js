@@ -1,18 +1,11 @@
-import { useState } from "react";
 import { 
-	collection, 
 	doc, 
-	getDoc, 
-	addDoc, 
 	updateDoc, 
-	query, 
-	where,
-	onSnapshot,
 	deleteDoc,
 } from "firebase/firestore";
 import { db } from "../../../firebase";
 
-const CartLogic = () => {
+const CartLogic = () => {	
 	const incrementCartItem = async (id, quantity) => {
 		const docRef = doc(db, "cart", id);
 		await updateDoc(docRef, { quantity: quantity + 1 });
@@ -24,8 +17,14 @@ const CartLogic = () => {
 		await updateDoc(docRef, { quantity: quantity - 1 });
 	}
 
+	const deleteCartItem = async (id) => {
+		const docRef = doc(db, "cart", id);
+		await deleteDoc(docRef);
+	}
+
 	return {
 		decrementCartItem,
+		deleteCartItem,
 		incrementCartItem,
 	}
 }

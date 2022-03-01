@@ -17,6 +17,7 @@ import ShopNav from "./ShopNav/ShopNav";
 import Footer from "./Footer/Footer";
 
 const AppRouter = ({ authService, isLoggedIn, userObj, drawerWidth, mobileOpen, handleDrawerToggle}) => {
+
 	return (
 		<Router>
 			<Switch>

@@ -9,6 +9,10 @@ import CssTextField from './CssTextField';
 import Logic from './Logic'
 import Orders from './Orders';
 import styles from "./styles";
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe("pk_test_51KWVMmHn8cxbBtzO7lgfmdAjVBaN3xOU4YVt78cDIXFTo1dMunjM78x6gcIGYWZ5mqB0oZjhFl2h3qNQsNZLz26K00EH1IxUvp")
 
 const Profile = ({ userObj, authService }) => {
 	const {
@@ -24,7 +28,7 @@ const Profile = ({ userObj, authService }) => {
 		handleChange,
 		onSubmitUsername,
 	} = Logic(userObj.id, authService.currentUser);
-
+	
 	return (
 		<Box sx={{ minHeight: '100vh' }}>
 			<Box className='header' sx={styles.header}>
@@ -87,25 +91,27 @@ const Profile = ({ userObj, authService }) => {
 							scrollButtons="auto"
 						>
 							<StyledTab label="Cart" {...a11yProps(0)} />
-							<StyledTab label="Profile" {...a11yProps(1)} />
-							<StyledTab label="Orders" {...a11yProps(2)} />
-							<StyledTab label="Address Book" {...a11yProps(3)} />
-							<StyledTab label="Wishlist" {...a11yProps(4)} />
+							{/* <StyledTab label="Profile" {...a11yProps(1)} /> */}
+							<StyledTab label="Orders" {...a11yProps(1)} />
+							<StyledTab label="Address Book" {...a11yProps(2)} />
+							<StyledTab label="Wishlist" {...a11yProps(3)} />
 						</StyledTabs>
 					</Box>
 					<TabPanel value={value} index={0}>
-						<Cart cartItems={cartItems} />
+						<Elements stripe={stripePromise}>
+							<Cart cartItems={cartItems} userObj={userObj} />
+						</Elements>
 					</TabPanel>
-					<TabPanel value={value} index={1}>
+					{/* <TabPanel value={value} index={1}>
 						<Account />
-					</TabPanel>
-					<TabPanel value={value} index={2}>
+					</TabPanel> */}
+					<TabPanel value={value} index={1}>
 						<Orders orders={orders} />
 					</TabPanel>
-					<TabPanel value={value} index={3}>
+					<TabPanel value={value} index={2}>
 						<AddressBook userObj={userObj} />
 					</TabPanel>
-					<TabPanel value={value} index={4}>
+					<TabPanel value={value} index={3}>
 						Wishlist
 					</TabPanel>
 				</Box>

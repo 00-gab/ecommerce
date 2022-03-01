@@ -1,21 +1,39 @@
-import React from 'react';
+import React, { useState, forwardRef } from 'react';
 import {
 	Box,
 	Button,
 	ButtonGroup,
+	Snackbar,
 	Typography,
 } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 import CartLogic from './CartLogic';
 import styles from './styles';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import Pay from "./Pay";
 
-const Cart = ({ cartItems }) => {
+const Alert = forwardRef(function Alert(props, ref) {
+	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const Cart = ({ cartItems, userObj }) => {
 	const {
 		decrementCartItem,
+		deleteCartItem,
 		incrementCartItem,
 	} = CartLogic();
+
+	const [openSnackbar, setOpenSnackbar] = useState(false);
+
+	const handleClose = (event, reason) => {
+		if (reason === 'clickaway') {
+		  return;
+		}
 	
+		setOpenSnackbar(false);
+	};
+
 	return (
 		<Box sx={styles.container}>
 			{cartItems.map(item => (
@@ -39,9 +57,21 @@ const Cart = ({ cartItems }) => {
 						<Button onClick={() => incrementCartItem(item.id, item.quantity)}><AddIcon /></Button>
 					</ButtonGroup>
 					</Box>
-					<Button color='inherit'>Remove</Button>
+					<Box sx={{ display: "flex" }}>
+						<Button onClick={() => deleteCartItem(item.id)} color='inherit'>Remove</Button>
+						<Pay 
+						userObj={userObj} 
+						cartItem={item} 
+						setOpenSnackbar={setOpenSnackbar}
+						/>
+					</Box>
 				</Box>
 			))}
+			<Snackbar open={openSnackbar} autoHideDuration={5000} onClose={handleClose}>
+				<Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+				Payment Success!
+				</Alert>
+			</Snackbar>
 		</Box>
 	);
 }
