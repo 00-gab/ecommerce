@@ -32,7 +32,7 @@ const card = elements.create("card", {
 const CardElement = ({ open, userObj, cartItem, setOpenSnackbar, handleClose }) => {
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
-
+	console.log(parseInt(cartItem.stocks))
 	// accept payment
 	useEffect(() => {
 		if (open) {

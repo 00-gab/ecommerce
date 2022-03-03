@@ -66,10 +66,11 @@ const AddProduct = ({ setModalOpen }) => {
 		}
 		data = {
 			name: productName,
-			price: productPrice,
-			stocks: productStocks,
+			price: parseInt(productPrice),
+			stocks: parseInt(productStocks),
 			favorite: false,
 			attachmentUrl,
+			productId: uuidv4(),
 		};
 		const collectionRef = collection(db, "products");
 		await addDoc(collectionRef, data);
@@ -80,7 +81,7 @@ const AddProduct = ({ setModalOpen }) => {
 		setProductPrice("");
 		setProductStocks("");
 		setLoading(false);
-		// setModalOpen(false);
+		setModalOpen(false);
 	}
 
 	return (

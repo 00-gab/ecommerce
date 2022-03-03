@@ -16,7 +16,7 @@ const Logic = (uid) => {
 
 	const addToCart = async (obj) => {
 		const collectionRef = collection(db, "cart");
-		const q = query(collectionRef, where("productId", "==", obj.id), where("uid", "==", uid));
+		const q = query(collectionRef, where("productId", "==", obj.productId), where("uid", "==", uid));
 		const snapshot = await getDocs(q);
 		try {
 			if (snapshot.docs.length === 1) {
@@ -25,9 +25,9 @@ const Logic = (uid) => {
 				await updateDoc(docRef, { quantity: quantity + 1  });
 				setOpen(true);
 			} else {
+				// set quantity, and productId
 				const data = {
-					...obj,
-					productId: obj.id,
+					productId: obj.productId,
 					quantity: 1,
 					uid,
 				}

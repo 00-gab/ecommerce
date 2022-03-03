@@ -16,7 +16,7 @@ const stripePromise = loadStripe("pk_test_51KWVMmHn8cxbBtzO7lgfmdAjVBaN3xOU4YVt7
 
 const Profile = ({ userObj, authService }) => {
 	const {
-		cartItems,
+		cartObject,
 		edit, 
 		loading,
 		orders,
@@ -99,7 +99,7 @@ const Profile = ({ userObj, authService }) => {
 					</Box>
 					<TabPanel value={value} index={0}>
 						<Elements stripe={stripePromise}>
-							<Cart cartItems={cartItems} userObj={userObj} />
+							<Cart cartObject={cartObject} userObj={userObj} />
 						</Elements>
 					</TabPanel>
 					{/* <TabPanel value={value} index={1}>

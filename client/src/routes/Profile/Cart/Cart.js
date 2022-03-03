@@ -17,7 +17,7 @@ const Alert = forwardRef(function Alert(props, ref) {
 	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Cart = ({ cartItems, userObj }) => {
+const Cart = ({ cartObject, userObj }) => {
 	const {
 		decrementCartItem,
 		deleteCartItem,
@@ -36,8 +36,8 @@ const Cart = ({ cartItems, userObj }) => {
 
 	return (
 		<Box sx={styles.container}>
-			{cartItems.map(item => (
-				<Box key={item.id} sx={styles.cartItem}>
+			{cartObject.map(item => (
+				<Box key={item.productId} sx={styles.cartItem}>
 					<Box className="cartDetails" sx={styles.cartDetails}>
 						<Box
 							component="img"
@@ -52,13 +52,13 @@ const Cart = ({ cartItems, userObj }) => {
 					</Box>
 					<Box sx={{color:"gray"}}>
 					<ButtonGroup color='inherit' variant="outlined" size="small">
-						<Button onClick={() => decrementCartItem(item.id, item.quantity)}><RemoveIcon /></Button>
+						<Button onClick={() => decrementCartItem(item.cartId, item.quantity)}><RemoveIcon /></Button>
 						<Button>{item.quantity}</Button>
-						<Button onClick={() => incrementCartItem(item.id, item.quantity)}><AddIcon /></Button>
+						<Button onClick={() => incrementCartItem(item.cartId, item.quantity)}><AddIcon /></Button>
 					</ButtonGroup>
 					</Box>
 					<Box sx={{ display: "flex" }}>
-						<Button onClick={() => deleteCartItem(item.id)} color='inherit'>Remove</Button>
+						<Button onClick={() => deleteCartItem(item.cartId)} color='inherit'>Remove</Button>
 						<Pay 
 						userObj={userObj} 
 						cartItem={item} 

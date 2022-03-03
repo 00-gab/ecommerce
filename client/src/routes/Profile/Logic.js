@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { collection, query, onSnapshot, where, doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, query, onSnapshot, where, doc, updateDoc } from "firebase/firestore";
 import { updateProfile } from 'firebase/auth';
 import { db } from "../../firebase";
 
@@ -9,6 +9,8 @@ const Logic = (userDocId, auth) => {
 	const [value, setValue] = useState(0);
 	const [username, setUsername] = useState(auth.displayName || auth.email);
 	const [cartItems, setCartItems] = useState([]);
+	const [products, setProducts] = useState([]);
+	const [cartObject, setCartObject] = useState([]);
 
 	const onClickEdit = () => setEdit(prev => !prev);
 	const onClickCancel = () => setEdit(false);
@@ -36,18 +38,57 @@ const Logic = (userDocId, auth) => {
 		}
 	}
 
+	// CART ITEM
 	useEffect(() => {
 		const collectionRef = collection(db, "cart");
 		const q = query(collectionRef, where("uid", "==", auth.uid));
 		const unsub = onSnapshot(q, snapshot => {
 			setCartItems(snapshot.docs.map(doc => ({
 				...doc.data(),
-				id: doc.id,
+				cartId: doc.id,
 			})))
 		});
 		return unsub;
 	}, [auth.uid])
 
+	// PRODUCT OBJECT
+	useEffect(() => {
+		let unsub;
+		if (cartItems.length > 0) {
+			let id = [];
+			cartItems.forEach(item => id.push(item.productId));
+			const collectionRef = collection(db, "products");
+			const q = query(collectionRef, where("productId", "in", id));
+			unsub = onSnapshot(q, snapshot => {
+				setProducts(snapshot.docs.map(doc => ({
+					...doc.data(),
+				})))
+			})
+			return unsub;
+		}
+		return unsub;
+	}, [cartItems])
+
+	// CART OBJECT
+	useEffect(() => {
+		if (cartItems.length > 0) {
+			let arr = [];
+			products.forEach((product) => {
+				const filtered = cartItems.filter(item => item.productId === product.productId);
+				if (filtered) {
+					const item = {
+						...product, 
+						quantity: filtered[0]?.quantity, 
+						cartId: filtered[0]?.cartId,
+					};
+					arr.push({...item});
+				}
+			})
+			setCartObject(arr)
+		} else {
+			setCartObject([]);
+		}
+	}, [products, cartItems])
 
 	const orders = [
 		{
@@ -71,7 +112,7 @@ const Logic = (userDocId, auth) => {
 	];
 
 	return {
-		cartItems,
+		cartObject,
 		edit, 
 		loading,
 		orders,
