@@ -32,7 +32,7 @@ const card = elements.create("card", {
 const CardElement = ({ open, userObj, cartItem, setOpenSnackbar, handleClose }) => {
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
-	console.log(parseInt(cartItem.stocks))
+
 	// accept payment
 	useEffect(() => {
 		if (open) {
@@ -52,7 +52,7 @@ const CardElement = ({ open, userObj, cartItem, setOpenSnackbar, handleClose }) 
 			quantity: cartItem.quantity,
 			email: userObj.email,
 		}
-		console.log(payload)
+
 		if (!stripe || !card) {
 			setLoading(false);
 			return;
@@ -70,7 +70,7 @@ const CardElement = ({ open, userObj, cartItem, setOpenSnackbar, handleClose }) 
 				body: JSON.stringify(body),
 			})
 			.then(res => res.json());
-			console.log(result);
+
 			if (result) {
 				setOpenSnackbar(true);
 				handleClose();

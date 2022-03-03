@@ -33,7 +33,7 @@ const Cart = ({ cartObject, userObj }) => {
 	
 		setOpenSnackbar(false);
 	};
-
+	
 	return (
 		<Box sx={styles.container}>
 			{cartObject.map(item => (
